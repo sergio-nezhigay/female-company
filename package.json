@@ -1,0 +1,15 @@
+{
+  "name": "female-company",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "shopify theme dev --store=thefemalecompany.myshopify.com --theme 185405636874",
+    "push": "shopify theme push --store=thefemalecompany.myshopify.com --theme 185405636874",
+    "pull": "shopify theme pull --store=thefemalecompany.myshopify.com --theme 185405636874"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
