@@ -56,7 +56,9 @@
 {% endfor %}
 <link rel="preload" as="script" href="https://app.usercentrics.eu/browser-ui/latest/loader.js">
 <link rel="preload" as="script" href="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js">
+{% comment %}PERFORMANCE OPTIMIZATION: Ablyft removed - no active experiments, 414ms impact
 <link rel="preload" as="script" href="https://cdn.ablyft.com/s/67024591.js">
+{% endcomment %}
 <!-- Page based preload & prefetch -->
 {%- if request.page_type == 'product' -%}
   {%- assign selected_media = product.selected_variant.featured_media | default: product.featured_media -%}
@@ -111,15 +113,27 @@
   data-settings-id="TxL-NT3yJ"
   async
 ></script>
-<script type="application/javascript" src="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js"></script>
+{% comment %}PERFORMANCE OPTIMIZATION: Defer blocker to after DOMContentLoaded (-526ms impact){% endcomment %}
 <script>
-  // Debug Usercentrics events
-  window.addEventListener('ucEvent', function (e) {
-    console.log('[USERCENTRICS CONSENT] Consent event', e.detail);
-  });
+  // Load Usercentrics blocker after page is interactive
+  window.addEventListener('DOMContentLoaded', function() {
+    var blockerScript = document.createElement('script');
+    blockerScript.type = 'application/javascript';
+    blockerScript.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
+    document.head.appendChild(blockerScript);
 
-  // Adjust Usercentrics Smart Data Protector behavior
-  uc.deactivateBlocking(['87JYasXPF']);
+    blockerScript.onload = function() {
+      // Debug Usercentrics events
+      window.addEventListener('ucEvent', function (e) {
+        console.log('[USERCENTRICS CONSENT] Consent event', e.detail);
+      });
+
+      // Adjust Usercentrics Smart Data Protector behavior
+      if (window.uc) {
+        uc.deactivateBlocking(['87JYasXPF']);
+      }
+    };
+  });
 </script>
 
 <!-- DataLayer -->
@@ -156,7 +170,9 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+{% comment %}PERFORMANCE OPTIMIZATION: Ablyft removed - no active experiments, 414ms impact
 <script src="https://cdn.ablyft.com/s/67024591.js"></script>
+{% endcomment %}
 <!-- Start Intelligems -->
 <script>
   window.Shopify = window.Shopify || { theme: { id: {{ theme.id }}, role: '{{ theme.role }}' } };
