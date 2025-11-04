@@ -169,6 +169,7 @@
         "image_TBa6w8",
         "image_U6FCMT"
       ],
+      "disabled": true,
       "settings": {
         "section_height": "medium",
         "transition_type": "fade",
@@ -238,6 +239,7 @@
         "slide_9ANEcT",
         "slide_8NhWz9"
       ],
+      "disabled": true,
       "settings": {
         "autoplay": true,
         "cycle_speed": 5,
@@ -405,6 +407,7 @@
         "logo_NwmBBy",
         "5fa4190a-f638-49ca-8aeb-1b9fdb363613"
       ],
+      "disabled": true,
       "custom_css": [
         ".logo-list__arrow {background: #cc0807 !important;}",
         ".icon--nav-arrow-right,.icon--nav-arrow-left {color: white;}"
@@ -443,6 +446,7 @@
     },
     "section_header_7B8RTm": {
       "type": "section-header",
+      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,
@@ -490,6 +494,7 @@
       "block_order": [
         "collection_HiQcPz"
       ],
+      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,
@@ -558,6 +563,7 @@
         "collection_DjDXtH",
         "collection_UmcQ7q"
       ],
+      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,
@@ -668,6 +674,7 @@
     },
     "section_header_n3KcgW": {
       "type": "section-header",
+      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,
@@ -735,6 +742,7 @@
         "164302139523b9f86f-4",
         "164302139523b9f86f-5"
       ],
+      "disabled": true,
       "settings": {
         "reveal_on_scroll": true,
         "layout": "single_row",
@@ -770,6 +778,7 @@
       "block_order": [
         "item-1"
       ],
+      "disabled": true,
       "settings": {
         "reveal_on_scroll": true,
         "background_type": "full_width",
@@ -857,6 +866,7 @@
       "block_order": [
         "collection_pLkCHU"
       ],
+      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,
@@ -1046,6 +1056,7 @@
         "collection_7nYmCD",
         "collection_M6kNT9"
       ],
+      "disabled": true,
       "settings": {
         "reveal_on_scroll": true,
         "layout": "carousel",
@@ -1114,6 +1125,7 @@
         "2f3a048c-2482-45a7-90cb-75077c2185d0",
         "85804b27-e55e-4fa7-8f3b-5dcb163a5e38"
       ],
+      "disabled": true,
       "settings": {
         "subheading": "Das Muschipedia für anfänger*innen & Fortgeschrittene",
         "title": "The Vulva Mag",
@@ -1127,6 +1139,7 @@
     },
     "54f1addf-3e2e-4265-bf77-7c4760e46a34": {
       "type": "button",
+      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,

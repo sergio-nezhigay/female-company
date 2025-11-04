@@ -16,10 +16,13 @@
 
 <!-- Page info -->
 <title>
+  test head 22222
   {% if page_title == blank -%}
     {{- shop.name -}}
+    1111111
   {%- else -%}
     {{- page_title -}}
+    22222
     {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
     {%- unless page_title contains 'The Female Company' %} | The Female Company{% endunless -%}
   {%- endif %}
@@ -56,8 +59,9 @@
 {% endfor %}
 <link rel="preload" as="script" href="https://app.usercentrics.eu/browser-ui/latest/loader.js">
 <link rel="preload" as="script" href="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js">
-{% comment %}PERFORMANCE OPTIMIZATION: Ablyft removed - no active experiments, 414ms impact
-<link rel="preload" as="script" href="https://cdn.ablyft.com/s/67024591.js">
+{% comment %}
+  PERFORMANCE OPTIMIZATION: Ablyft removed - no active experiments, 414ms impact
+  <link rel="preload" as="script" href="https://cdn.ablyft.com/s/67024591.js">
 {% endcomment %}
 <!-- Page based preload & prefetch -->
 {%- if request.page_type == 'product' -%}
@@ -85,7 +89,7 @@
         'cdn.shopify.com/shopifycloud/checkout-web/',
         'buy.thefemalecompany.com/cdn/shopifycloud/',
         'scripting.tracify.ai',
-        'usercentrics.eu'
+        'usercentrics.eu',
       ],
       tracesSampleRate: 0.05,
     });
@@ -116,13 +120,13 @@
 {% comment %}PERFORMANCE OPTIMIZATION: Defer blocker to after DOMContentLoaded (-526ms impact){% endcomment %}
 <script>
   // Load Usercentrics blocker after page is interactive
-  window.addEventListener('DOMContentLoaded', function() {
+  window.addEventListener('DOMContentLoaded', function () {
     var blockerScript = document.createElement('script');
     blockerScript.type = 'application/javascript';
     blockerScript.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
     document.head.appendChild(blockerScript);
 
-    blockerScript.onload = function() {
+    blockerScript.onload = function () {
       // Debug Usercentrics events
       window.addEventListener('ucEvent', function (e) {
         console.log('[USERCENTRICS CONSENT] Consent event', e.detail);
@@ -139,7 +143,9 @@
 <!-- DataLayer -->
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
+  function gtag() {
+    dataLayer.push(arguments);
+  }
 </script>
 
 <!-- Styles -->
@@ -170,8 +176,9 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-{% comment %}PERFORMANCE OPTIMIZATION: Ablyft removed - no active experiments, 414ms impact
-<script src="https://cdn.ablyft.com/s/67024591.js"></script>
+{% comment %}
+  PERFORMANCE OPTIMIZATION: Ablyft removed - no active experiments, 414ms impact
+  <script src="https://cdn.ablyft.com/s/67024591.js"></script>
 {% endcomment %}
 <!-- Start Intelligems -->
 <script>
@@ -182,7 +189,6 @@
     suffix: "{{ template_suffix }}"
   };
 </script>
-
 
 <script type="module" src="https://cdn.intelligems.io/esm/b9bad714bc5f/bundle.js"></script>
 <!-- End Intelligems -->
@@ -211,8 +217,7 @@
 
 <!-- Shopify Consent -->
 <script>
-
-  document.addEventListener("DOMContentLoaded", ()=> {
+  document.addEventListener('DOMContentLoaded', () => {
     window.Shopify.loadFeatures(
       [
         {
@@ -241,9 +246,8 @@
 
           console.log('[SHOPIFY CONSENT] Attempting consent update', consentSettings);
 
-          window.Shopify.customerPrivacy.setTrackingConsent(
-            consentSettings,
-            () => console.log('[SHOPIFY CONSENT] Consent updated', window.Shopify.customerPrivacy.currentVisitorConsent())
+          window.Shopify.customerPrivacy.setTrackingConsent(consentSettings, () =>
+            console.log('[SHOPIFY CONSENT] Consent updated', window.Shopify.customerPrivacy.currentVisitorConsent())
           );
         }
 
