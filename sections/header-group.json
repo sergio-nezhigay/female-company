@@ -87,7 +87,6 @@
         "message_XYRLUB",
         "message-1"
       ],
-      "disabled": true,
       "settings": {
         "start_year": 2025,
         "start_month": 1,
@@ -330,7 +329,6 @@
         "5b065054-cb65-46d3-b3ce-09fa43be8e43",
         "36d2aa97-ef87-40cf-933a-42969764729a"
       ],
-      "disabled": true,
       "custom_css": [
         ".lp-period-panty .header__linklist {display: none !important;}",
         ".lp-period-panty .header__icon-wrapper .icon--header-hamburger {color: white;}"
