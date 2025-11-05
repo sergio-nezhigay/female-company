@@ -66,8 +66,20 @@
     - Mobile: Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg
     - Desktop: 2025_09_15_TFC0388_1-hires3_1_1.png
   {%- endcomment -%}
-  <link rel="preload" as="image" href="https://buy.thefemalecompany.com/cdn/shop/files/Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg?width=1000" media="(max-width: 740px)" fetchpriority="high">
-  <link rel="preload" as="image" href="https://buy.thefemalecompany.com/cdn/shop/files/2025_09_15_TFC0388_1-hires3_1_1.png?width=1800" media="(min-width: 741px)" fetchpriority="high">
+  <link
+    rel="preload"
+    as="image"
+    href="https://buy.thefemalecompany.com/cdn/shop/files/Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg?width=1000"
+    media="(max-width: 740px)"
+    fetchpriority="high"
+  >
+  <link
+    rel="preload"
+    as="image"
+    href="https://buy.thefemalecompany.com/cdn/shop/files/2025_09_15_TFC0388_1-hires3_1_1.png?width=1800"
+    media="(min-width: 741px)"
+    fetchpriority="high"
+  >
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
@@ -81,7 +93,7 @@
 {%- endif -%}
 
 <!-- APM/Exception management -->
-<script src="https://js.sentry-cdn.com/df6c8eba46234e27a991bf672cc26a42.min.js" crossorigin="anonymous"></script>
+<script src="https://js.sentry-cdn.com/df6c8eba46234e27a991bf672cc26a42.min.js" crossorigin="anonymous" async></script>
 <script>
   Sentry.onLoad(function () {
     Sentry.init({
@@ -95,7 +107,7 @@
         'cdn.shopify.com/shopifycloud/checkout-web/',
         'buy.thefemalecompany.com/cdn/shopifycloud/',
         'scripting.tracify.ai',
-        'usercentrics.eu'
+        'usercentrics.eu',
       ],
       tracesSampleRate: 0.05,
     });
@@ -137,7 +149,9 @@
 <!-- DataLayer -->
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
+  function gtag() {
+    dataLayer.push(arguments);
+  }
 </script>
 
 <!-- Styles -->
@@ -179,7 +193,6 @@
   };
 </script>
 
-
 <script type="module" src="https://cdn.intelligems.io/esm/b9bad714bc5f/bundle.js"></script>
 <!-- End Intelligems -->
 {% for js_asset in js_assets %}
@@ -207,8 +220,7 @@
 
 <!-- Shopify Consent -->
 <script>
-
-  document.addEventListener("DOMContentLoaded", ()=> {
+  document.addEventListener('DOMContentLoaded', () => {
     window.Shopify.loadFeatures(
       [
         {
@@ -237,9 +249,8 @@
 
           console.log('[SHOPIFY CONSENT] Attempting consent update', consentSettings);
 
-          window.Shopify.customerPrivacy.setTrackingConsent(
-            consentSettings,
-            () => console.log('[SHOPIFY CONSENT] Consent updated', window.Shopify.customerPrivacy.currentVisitorConsent())
+          window.Shopify.customerPrivacy.setTrackingConsent(consentSettings, () =>
+            console.log('[SHOPIFY CONSENT] Consent updated', window.Shopify.customerPrivacy.currentVisitorConsent())
           );
         }
 
