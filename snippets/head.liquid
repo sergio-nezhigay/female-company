@@ -58,6 +58,18 @@
 <link rel="preload" as="script" href="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js">
 <link rel="preload" as="script" href="https://cdn.ablyft.com/s/67024591.js">
 <!-- Page based preload & prefetch -->
+{%- if request.page_type == 'index' -%}
+  {%- comment -%}
+    Preload first slideshow image for LCP optimization
+    IMPORTANT: Update these URLs when changing the first homepage slideshow image
+    Current images:
+    - Mobile: Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg
+    - Desktop: 2025_09_15_TFC0388_1-hires3_1_1.png
+  {%- endcomment -%}
+  <link rel="preload" as="image" href="https://buy.thefemalecompany.com/cdn/shop/files/Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg?width=1000" media="(max-width: 740px)" fetchpriority="high">
+  <link rel="preload" as="image" href="https://buy.thefemalecompany.com/cdn/shop/files/2025_09_15_TFC0388_1-hires3_1_1.png?width=1800" media="(min-width: 741px)" fetchpriority="high">
+{%- endif -%}
+
 {%- if request.page_type == 'product' -%}
   {%- assign selected_media = product.selected_variant.featured_media | default: product.featured_media -%}
 
