@@ -18,7 +18,7 @@
           "type": "discount",
           "settings": {
             "discount_code": "REDMONTH",
-            "discount_text": "Bis zu 70% + 15%. Code:",
+            "discount_text": "Zusätzliche 15% Rabatt:",
             "button_text_copy": "Copy",
             "url_matchers": "collections/favourites,collections/influencer,collections/paid-social-landingpage,pages/lp-period-panty,pages/p-period-panty_ab_menu,pages/crm_landingpage_25,collections/crm_landingpage_2-2,collections"
           }
@@ -158,6 +158,52 @@
         "animation_speed": 110,
         "text_color": "#ffffff",
         "background": "#ff00ff"
+      }
+    },
+    "countdown_timer_cFXwBC": {
+      "type": "countdown-timer",
+      "blocks": {
+        "text_Pwri4a": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Nur heute: Preise um weitere 5 % reduziert 🔥</strong></p><p></p>",
+            "offset_top_desktop": 10,
+            "offset_bottom_desktop": 0,
+            "offset_top_mobile": 10,
+            "offset_bottom_mobile": 0
+          }
+        },
+        "countdown_timer_TBNr9q": {
+          "type": "countdown_timer",
+          "settings": {
+            "show_countdown_words": true,
+            "countdown_start_date": "2025-11-05",
+            "countdown_start_time_hour": "18",
+            "countdown_start_time_minute": "00",
+            "countdown_date": "2025-11-06",
+            "countdown_time_hour": "00",
+            "countdown_time_minute": "00",
+            "timer_link": "",
+            "timer_font_size_mobile": 1,
+            "text_font_size_mobile": 0.8,
+            "timer_font_size_desktop": 2,
+            "text_font_size_desktop": 1.5,
+            "offset_top_desktop": 0,
+            "offset_bottom_desktop": 10,
+            "offset_top_mobile": 0,
+            "offset_bottom_mobile": 5
+          }
+        }
+      },
+      "block_order": [
+        "text_Pwri4a",
+        "countdown_timer_TBNr9q"
+      ],
+      "name": "Countdown timer",
+      "settings": {
+        "countdown_text_color": "#1a1a1a",
+        "background_color": "#fff0f0",
+        "text_color": "#1a1a1a"
       }
     },
     "header": {
@@ -356,6 +402,7 @@
     "announcement-bar",
     "announcement_bar_TdwUYf",
     "marquee_ehWhQC",
+    "countdown_timer_cFXwBC",
     "header"
   ]
 }

@@ -70,8 +70,8 @@
         "show_banner_usps": false,
         "banner_usps_link": "",
         "show_hide_button": false,
-        "banner_usps_bg_color": "#FFFFFF",
-        "banner_usps_text_color": "#2ABB53",
+        "banner_usps_bg_color": "#ffffff",
+        "banner_usps_text_color": "#2abb53",
         "banner_usps_heading": "",
         "banner_usps_heading_1": "",
         "banner_usps_heading_2": "",
@@ -262,10 +262,10 @@
         "f86bb837-4a49-49c6-9951-80f42b6a1b93": {
           "type": "image",
           "settings": {
-            "subheading": "Stay Dry Layer Technologie™",
+            "subheading": "Stay Dry® Technologie",
             "title": "",
-            "content": "<p>Entwickelt mit Textiltechniker*innen und Gynäkolog*innen: nur <strong>max. 1mm</strong> dicker als normale Unterwäsche und trotzdem super <strong>sau(g)stark</strong>.</p>",
-            "link_text": "mehr erfahren",
+            "content": "<p>Saugstarke Membran, nur <strong>1 mm dicker</strong> als normale Unterwäsche und trotzdem <strong>auslaufsicher</strong>.</p>",
+            "link_text": "Erfahre Mehr",
             "link_url": "#stay-dry",
             "link_style": "link",
             "text_position": "middle_left",
@@ -304,9 +304,9 @@
       "type": "custom-html",
       "name": "Custom HTML_new",
       "settings": {
-        "subheading": "Default Mode: Dry Pantys",
-        "title": "Stay Dry Layer Technologie™",
-        "html": "<center id=\"stay-dry\">Unsere Periodenslips bieten dir zuverlässigen Auslaufschutz, egal ob im Alltag, beim Sport oder in der Nacht. Dank der innovativen Stay Dry Layer™ Technologie besteht die Periodenunterwäsche aus einem vierlagigen Absorptionssystem, das gemeinsam mit Textiltechnikerinnen und Gynäkologinnen entwickelt wurde.  Entwickelt mit Textiltechniker*innen und Gynäkolog*innen: nur <strong>max. 1mm</strong> dicker als normale Unterwäsche und trotzdem super <strong>sau(g)stark</strong>.</center>",
+        "subheading": "AUSLAUFSICHER DURCH DEN TAG",
+        "title": "Stay Dry® Technologie",
+        "html": "",
         "add_vertical_spacing": false,
         "disable_inside_spacing": false,
         "background_type": "full_width",
@@ -323,8 +323,8 @@
             "image": "shopify://shop_images/panty_layer_closeup_layer1.jpg",
             "image_width": 100,
             "image_border": "rgba(0,0,0,0)",
-            "title": "Layer 1: Stay Dry Layer™",
-            "content": "<p>Diese Schicht <strong>nimmt Flüssigkeit</strong> in Sekundenschnelle auf und hält dich dauerhaft trocken.</p>",
+            "title": "1. Schicht: Stay Dry® Membran",
+            "content": "<p>Saugt Flüssigkeit innerhalb weniger Sekunden auf. Für <strong>trockenes Tragegefühl</strong>.</p>",
             "link_text": "",
             "link_url": "",
             "link_style": "link",
@@ -338,8 +338,8 @@
             "image": "shopify://shop_images/panty_layer_closeup_layer2_alt.jpg",
             "image_width": 100,
             "image_border": "rgba(0,0,0,0)",
-            "title": "Layer 2: Ultra-absorbierende Schicht",
-            "content": "<p>Sie <strong>speichert</strong> die Flüssigkeit sicher und verhindert unangenehme Feuchtigkeit oder Gerüche.</p>",
+            "title": "2. Schicht: Ultra absorbierende Faser",
+            "content": "<p><strong>Speichert</strong> die Flüssigkeit und schließt sie sicher ein.</p>",
             "link_text": "",
             "link_url": "",
             "link_style": "link",
@@ -350,11 +350,11 @@
         "template--17669741314314__feda577e-11fc-46a6-b585-7c78638f36a1-item-3": {
           "type": "item",
           "settings": {
-            "image": "shopify://shop_images/panty_layer_closeup_layer3.jpg",
+            "image": "shopify://shop_images/Wasserabweisende-Membran.png",
             "image_width": 100,
             "image_border": "rgba(0,0,0,0)",
-            "title": "Layer 3: Wasserdichte Membran",
-            "content": "<p>Diese Barriere schützt dich <strong>zuverlässig vor Auslaufen</strong>, auch an starken Tagen oder bei längerer Tragedauer.</p>",
+            "title": "3. Schicht: Wasserdichtes Gewebe",
+            "content": "<p>Lässt keine Flüssigkeit durch, <strong>keine Auslaufgefahr</strong>.</p>",
             "link_text": "",
             "link_url": "",
             "link_style": "link",
@@ -368,8 +368,8 @@
             "image": "shopify://shop_images/panty_layer_closeup_layer4_070ad79d-1f21-4c24-8941-cc2cf0159468.jpg",
             "image_width": 100,
             "image_border": "rgba(0,0,0,0)",
-            "title": "Layer 4: Weiche Bio-Baumwolle",
-            "content": "<p>Die äußere Schicht besteht aus superweicher <strong>Bio-Baumwolle</strong> und sorgt für ein angenehmes, natürliches <strong>Tragegefühl</strong>.</p>",
+            "title": "4. Schicht: Hautfreundliche Außenschicht",
+            "content": "<p>Hautfreundlicher Oberstoff für <strong>komfortables Tragegefühl</strong>.</p>",
             "link_text": "",
             "link_url": "",
             "link_style": "link",
@@ -390,7 +390,7 @@
         "stack_items": false,
         "subheading": "",
         "title": "",
-        "content": "<p>Mit dieser Kombination genießt du maximale Bewegungsfreiheit, Trockenheit und Sicherheit, ohne zusätzliche Produkte wie Tampons oder Binden - oder in Kombination für doppelten Schutz.</p>",
+        "content": "<p>Saugstarke Einlage, nur <strong>1 mm dicker</strong> als normale Unterwäsche und trotzdem <strong>auslaufsicher</strong>. Ohne Biozide & PFAs. So hält sie dicht:</p>",
         "column_alignment": "center",
         "mobile_item_size": "medium",
         "desktop_item_size": "medium",
@@ -527,6 +527,7 @@
       "block_order": [
         "template--17669741314314__609b6ac0-94db-46fb-942f-37e93ec6659c-item-1"
       ],
+      "disabled": true,
       "settings": {
         "reveal_on_scroll": true,
         "background_type": "full_width",
@@ -559,6 +560,7 @@
       "block_order": [
         "template--17669741314314__5234b890-eacd-4bc7-a285-91de319f80ad-item-1"
       ],
+      "disabled": true,
       "settings": {
         "reveal_on_scroll": true,
         "background_type": "full_width",
@@ -591,6 +593,7 @@
       "block_order": [
         "template--17669741314314__6eaa494e-eafe-4a2b-83f7-a759ad31cb51-item-1"
       ],
+      "disabled": true,
       "settings": {
         "reveal_on_scroll": true,
         "background_type": "full_width",
@@ -623,6 +626,7 @@
       "block_order": [
         "template--17669741314314__6cb43d1a-8f6d-4cf7-813f-67ffae9a140d-item-1"
       ],
+      "disabled": true,
       "name": "Image with text",
       "settings": {
         "reveal_on_scroll": true,

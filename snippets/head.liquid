@@ -58,30 +58,6 @@
 <link rel="preload" as="script" href="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js">
 <link rel="preload" as="script" href="https://cdn.ablyft.com/s/67024591.js">
 <!-- Page based preload & prefetch -->
-{%- if request.page_type == 'index' -%}
-  {%- comment -%}
-    Preload first slideshow image for LCP optimization
-    IMPORTANT: Update these URLs when changing the first homepage slideshow image
-    Current images:
-    - Mobile: Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg
-    - Desktop: 2025_09_15_TFC0388_1-hires3_1_1.png
-  {%- endcomment -%}
-  <link
-    rel="preload"
-    as="image"
-    href="https://buy.thefemalecompany.com/cdn/shop/files/Header_mobile_7abf522f-3afd-41f1-92e8-1b3a7eadc3db.jpg?width=1000"
-    media="(max-width: 740px)"
-    fetchpriority="high"
-  >
-  <link
-    rel="preload"
-    as="image"
-    href="https://buy.thefemalecompany.com/cdn/shop/files/2025_09_15_TFC0388_1-hires3_1_1.png?width=1800"
-    media="(min-width: 741px)"
-    fetchpriority="high"
-  >
-{%- endif -%}
-
 {%- if request.page_type == 'product' -%}
   {%- assign selected_media = product.selected_variant.featured_media | default: product.featured_media -%}
 
@@ -93,7 +69,7 @@
 {%- endif -%}
 
 <!-- APM/Exception management -->
-<script src="https://js.sentry-cdn.com/df6c8eba46234e27a991bf672cc26a42.min.js" crossorigin="anonymous" async></script>
+<script src="https://js.sentry-cdn.com/df6c8eba46234e27a991bf672cc26a42.min.js" crossorigin="anonymous"></script>
 <script>
   Sentry.onLoad(function () {
     Sentry.init({
@@ -107,7 +83,7 @@
         'cdn.shopify.com/shopifycloud/checkout-web/',
         'buy.thefemalecompany.com/cdn/shopifycloud/',
         'scripting.tracify.ai',
-        'usercentrics.eu',
+        'usercentrics.eu'
       ],
       tracesSampleRate: 0.05,
     });
@@ -149,9 +125,7 @@
 <!-- DataLayer -->
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
+  function gtag(){dataLayer.push(arguments)};
 </script>
 
 <!-- Styles -->
@@ -182,7 +156,7 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-<script src="https://cdn.ablyft.com/s/67024591.js" defer></script>
+<script src="https://cdn.ablyft.com/s/67024591.js"></script>
 <!-- Start Intelligems -->
 <script>
   window.Shopify = window.Shopify || { theme: { id: {{ theme.id }}, role: '{{ theme.role }}' } };
@@ -192,6 +166,7 @@
     suffix: "{{ template_suffix }}"
   };
 </script>
+
 
 <script type="module" src="https://cdn.intelligems.io/esm/b9bad714bc5f/bundle.js"></script>
 <!-- End Intelligems -->
@@ -220,7 +195,8 @@
 
 <!-- Shopify Consent -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+
+  document.addEventListener("DOMContentLoaded", ()=> {
     window.Shopify.loadFeatures(
       [
         {
@@ -249,8 +225,9 @@
 
           console.log('[SHOPIFY CONSENT] Attempting consent update', consentSettings);
 
-          window.Shopify.customerPrivacy.setTrackingConsent(consentSettings, () =>
-            console.log('[SHOPIFY CONSENT] Consent updated', window.Shopify.customerPrivacy.currentVisitorConsent())
+          window.Shopify.customerPrivacy.setTrackingConsent(
+            consentSettings,
+            () => console.log('[SHOPIFY CONSENT] Consent updated', window.Shopify.customerPrivacy.currentVisitorConsent())
           );
         }
 
