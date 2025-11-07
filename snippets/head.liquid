@@ -35,16 +35,110 @@
 {%- if page_description -%}
   <meta name="description" content="{{ page_description | escape }}">
 {%- endif -%}
-<link rel="canonical" href="{{ canonical_url }}">
+
+{%- comment -%}
+  Canonical URL logic:
+  1. For collection pages with pagination: point to main collection URL without page parameter
+  2. Remove currency-specific parameters to avoid duplicates across markets
+  3. Keep the base URL structure with locale prefix intact
+{%- endcomment -%}
+
+{%- liquid
+  assign clean_canonical = canonical_url
+  
+  # Remove currency parameters if present
+  assign clean_canonical = clean_canonical | split: '?currency=' | first
+  assign clean_canonical = clean_canonical | split: '&currency=' | first
+  
+  # For paginated collection/blog pages, use the base URL without page parameter
+  if request.page_type == 'collection' and paginate.current_page and paginate.current_page > 1
+    assign clean_canonical = collection.url | prepend: request.origin
+  elsif request.page_type == 'blog' and paginate.current_page and paginate.current_page > 1
+    assign clean_canonical = blog.url | prepend: request.origin
+  endif
+  
+  # Remove any remaining query parameters that might cause duplicates
+  assign clean_canonical = clean_canonical | split: '?page=' | first
+  assign clean_canonical = clean_canonical | split: '&page=' | first
+-%}
+
+<link rel="canonical" href="{{ clean_canonical }}">
+
+{%- comment -%}
+  Hreflang tags for multi-language/market support
+  These help search engines serve the correct version to users
+{%- endcomment -%}
+{%- if request.page_type == 'product' or request.page_type == 'collection' or request.page_type == 'page' or request.page_type == 'blog' or request.page_type == 'article' -%}
+  {%- liquid
+    # Generate base URL without locale prefix for hreflang
+    if request.page_type == 'product'
+      assign base_url = product.url
+    elsif request.page_type == 'collection'
+      assign base_url = collection.url
+    elsif request.page_type == 'page'
+      assign base_url = page.url
+    elsif request.page_type == 'blog'
+      assign base_url = blog.url
+    elsif request.page_type == 'article'
+      assign base_url = article.url
+    endif
+    
+    # Remove locale prefix if exists
+    assign clean_path = base_url | remove_first: '/de-de' | remove_first: '/de-ch' | remove_first: '/de-be' | remove_first: '/de-nl' | remove_first: '/de-lu' | remove_first: '/de-dk' | remove_first: '/de-fr' | remove_first: '/en-de' | remove_first: '/en-ch' | remove_first: '/en-be' | remove_first: '/en-nl' | remove_first: '/en-lu' | remove_first: '/en-dk' | remove_first: '/en-fr' | remove_first: '/en'
+  -%}
+  
+  {%- comment -%}Default / x-default points to DE market{%- endcomment -%}
+  <link rel="alternate" hreflang="x-default" href="{{ request.origin }}{{ clean_path }}">
+  <link rel="alternate" hreflang="de" href="{{ request.origin }}{{ clean_path }}">
+  <link rel="alternate" hreflang="de-DE" href="{{ request.origin }}{{ clean_path }}">
+  <link rel="alternate" hreflang="de-CH" href="{{ request.origin }}/de-ch{{ clean_path }}">
+  <link rel="alternate" hreflang="de-BE" href="{{ request.origin }}/de-be{{ clean_path }}">
+  <link rel="alternate" hreflang="de-NL" href="{{ request.origin }}/de-nl{{ clean_path }}">
+  <link rel="alternate" hreflang="de-LU" href="{{ request.origin }}/de-lu{{ clean_path }}">
+  <link rel="alternate" hreflang="de-DK" href="{{ request.origin }}/de-dk{{ clean_path }}">
+  <link rel="alternate" hreflang="de-FR" href="{{ request.origin }}/de-fr{{ clean_path }}">
+  <link rel="alternate" hreflang="en" href="{{ request.origin }}/en{{ clean_path }}">
+  <link rel="alternate" hreflang="en-DE" href="{{ request.origin }}/en{{ clean_path }}">
+  <link rel="alternate" hreflang="en-CH" href="{{ request.origin }}/en-ch{{ clean_path }}">
+  <link rel="alternate" hreflang="en-BE" href="{{ request.origin }}/en-be{{ clean_path }}">
+  <link rel="alternate" hreflang="en-NL" href="{{ request.origin }}/en-nl{{ clean_path }}">
+  <link rel="alternate" hreflang="en-LU" href="{{ request.origin }}/en-lu{{ clean_path }}">
+  <link rel="alternate" hreflang="en-DK" href="{{ request.origin }}/en-dk{{ clean_path }}">
+  <link rel="alternate" hreflang="en-FR" href="{{ request.origin }}/en-fr{{ clean_path }}">
+{%- endif -%}
+
 {% render 'social-meta-tags' %}
 {% render 'microdata-schema' %}
 
-<!-- General preload & prefetch -->
-<link rel="preconnect" href="https://cdn.shopify.com">
+{%- comment -%}
+  Performance optimization: Preconnect hints for critical third-party domains
+  - Removed cdn.shopify.com preconnect (redundant, added by Shopify automatically)
+  - Added crossorigin where needed for CORS requests
+  - Prioritized critical domains only (Reviews.io, analytics, CMP)
+  - Added dns-prefetch for non-critical but frequently used domains
+{%- endcomment -%}
+
+<!-- Critical third-party preconnects -->
+<link rel="preconnect" href="https://app.usercentrics.eu" crossorigin>
+<link rel="preconnect" href="https://privacy-proxy.usercentrics.eu" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+
+<!-- DNS prefetch for frequently used domains -->
+<link rel="dns-prefetch" href="https://widget.reviews.io">
+<link rel="dns-prefetch" href="https://assets.reviews.io">
 <link rel="dns-prefetch" href="https://www.google-analytics.com">
-<link rel="preconnect" href="//app.usercentrics.eu">
-<link rel="preconnect" href="//api.usercentrics.eu">
-<link rel="preconnect" href="//privacy-proxy.usercentrics.eu">
+<link rel="dns-prefetch" href="https://static.klaviyo.com">
+<link rel="dns-prefetch" href="https://connect.facebook.net">
+<link rel="dns-prefetch" href="https://cdn-widgetsrepository.yotpo.com">
+<link rel="dns-prefetch" href="https://static.rechargecdn.com">
+<link rel="dns-prefetch" href="https://js.sentry-cdn.com">
+<link rel="dns-prefetch" href="https://scripts.clarity.ms">
+<link rel="dns-prefetch" href="https://bat.bing.com">
+<link rel="dns-prefetch" href="https://snap.licdn.com">
+<link rel="dns-prefetch" href="https://widget.gotolstoy.com">
+<link rel="dns-prefetch" href="https://scripting.tracify.ai">
+<link rel="dns-prefetch" href="https://cdn-app.cart-bot.net">
+<link rel="dns-prefetch" href="https://api.usercentrics.eu">
 {% for css_asset in css_assets %}
   <link rel="preload" as="style" href="{{ css_asset | asset_url }}">
 {% endfor %}
@@ -54,9 +148,11 @@
 {% for js_asset in js_assets %}
   <link rel="preload" as="script" href="{{ js_asset | asset_url }}">
 {% endfor %}
-<link rel="preload" as="script" href="https://app.usercentrics.eu/browser-ui/latest/loader.js">
-<link rel="preload" as="script" href="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js">
-<link rel="preload" as="script" href="https://cdn.ablyft.com/s/67024591.js">
+{%- comment -%}
+  Only preload truly critical scripts - removed non-critical preloads
+  Scripts will still load but won't block other resources
+{%- endcomment -%}
+<link rel="preload" as="script" href="https://app.usercentrics.eu/browser-ui/latest/loader.js" crossorigin>
 <!-- Page based preload & prefetch -->
 {%- if request.page_type == 'product' -%}
   {%- assign selected_media = product.selected_variant.featured_media | default: product.featured_media -%}
@@ -68,40 +164,57 @@
   {%- endif -%}
 {%- endif -%}
 
-<!-- APM/Exception management -->
-<script src="https://js.sentry-cdn.com/df6c8eba46234e27a991bf672cc26a42.min.js" crossorigin="anonymous"></script>
+{%- comment -%}APM/Exception management - відкладене завантаження{%- endcomment -%}
 <script>
-  Sentry.onLoad(function () {
-    Sentry.init({
-      denyUrls: [
-        'cdn.intelligems.io',
-        'widget.reviews.io',
-        'static.klaviyo.com',
-        'cdn.shopify.com/shopifycloud/payment-sheet/',
-        'monorail-edge.shopifysvc.com',
-        'cdn.shopify.com/shopifycloud/media-analytics/',
-        'cdn.shopify.com/shopifycloud/checkout-web/',
-        'buy.thefemalecompany.com/cdn/shopifycloud/',
-        'scripting.tracify.ai',
-        'usercentrics.eu'
-      ],
-      tracesSampleRate: 0.05,
-    });
-  });
+  (function() {
+    // Завантажуємо Sentry на idle
+    function loadSentry() {
+      if (window.sentryLoaded) return;
+      window.sentryLoaded = true;
 
-  // Capture liquid errors
-  document.addEventListener('DOMContentLoaded', () => {
-    const bodyText = document.body.innerText;
-    const liquidErrors = bodyText.match(/Liquid error(.*?):/g);
-
-    if (!liquidErrors) {
-      return;
+      var s = document.createElement('script');
+      s.src = 'https://js.sentry-cdn.com/df6c8eba46234e27a991bf672cc26a42.min.js';
+      s.crossOrigin = 'anonymous';
+      s.defer = true;
+      s.onload = function() {
+        if (typeof Sentry !== 'undefined') {
+          Sentry.onLoad(function () {
+            Sentry.init({
+              denyUrls: [
+                'cdn.intelligems.io', 'widget.reviews.io', 'static.klaviyo.com',
+                'cdn.shopify.com/shopifycloud/payment-sheet/', 'monorail-edge.shopifysvc.com',
+                'cdn.shopify.com/shopifycloud/media-analytics/', 'cdn.shopify.com/shopifycloud/checkout-web/',
+                'buy.thefemalecompany.com/cdn/shopifycloud/', 'scripting.tracify.ai', 'usercentrics.eu'
+              ],
+              tracesSampleRate: 0.05,
+            });
+          });
+        }
+      };
+      document.head.appendChild(s);
     }
 
-    liquidErrors.forEach((error) => {
-      Sentry.captureException(new Error(error));
+    // Завантаження на idle або після 3 секунд
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadSentry, { timeout: 3000 });
+    } else {
+      setTimeout(loadSentry, 3000);
+    }
+
+    // Capture liquid errors - тільки після завантаження Sentry
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        if (typeof Sentry === 'undefined') return;
+        var bodyText = document.body.innerText;
+        var liquidErrors = bodyText.match(/Liquid error(.*?):/g);
+        if (liquidErrors) {
+          liquidErrors.forEach(function(error) {
+            Sentry.captureException(new Error(error));
+          });
+        }
+      }, 5000);
     });
-  });
+  })();
 </script>
 
 <!-- Usercentrics -->
@@ -111,7 +224,7 @@
   data-settings-id="TxL-NT3yJ"
   async
 ></script>
-<script type="application/javascript" src="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js"></script>
+<script type="application/javascript" src="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js" defer></script>
 <script>
   // Debug Usercentrics events
   window.addEventListener('ucEvent', function (e) {
@@ -122,11 +235,17 @@
   uc.deactivateBlocking(['87JYasXPF']);
 </script>
 
-<!-- DataLayer -->
+{%- comment -%}DataLayer ініціалізація - мінімальна, GTM завантажиться пізніше{%- endcomment -%}
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments)};
 </script>
+
+{%- comment -%}Оптимізоване завантаження аналітики (GTM, FB Pixel та інші){%- endcomment -%}
+{% render 'optimized-analytics' %}
+
+{%- comment -%}Оптимізація треть-парті віджетів (facades, lazy load){%- endcomment -%}
+{% render 'third-party-optimizer' %}
 
 <!-- Styles -->
 {% render 'css-variables', direction: direction %}
@@ -155,20 +274,81 @@
 {%- endif -%}
 
 <!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-<script src="https://cdn.ablyft.com/s/67024591.js"></script>
-<!-- Start Intelligems -->
+{%- comment -%} Load jQuery only if PageFly markup detected {%- endcomment -%}
 <script>
-  window.Shopify = window.Shopify || { theme: { id: {{ theme.id }}, role: '{{ theme.role }}' } };
+  (function(){
+    var needJQ = document.querySelector('[id^="__pf"], .pf-1_, .pagefly');
+    if(!needJQ){ return; }
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js';
+    s.defer=true;document.head.appendChild(s);
+  })();
+  </script>
+{%- comment -%}
+  Оптимізація завантаження треть-парті скриптів
+  Стратегія: Critical > Interaction > Visible > Idle
+{%- endcomment -%}
+<script>
+  (function() {
+    var d = document;
+    var s = d.createElement('script');
+    s.src = '{{ "defer-third-party.js" | asset_url }}';
+    s.defer = true;
+    d.head.appendChild(s);
+  })();
+
+  window.addEventListener('load', function () {
+    if (!window.DeferLib) return;
+
+    {%- comment -%}GROUP 1: Visibility-driven widgets (Reviews.io - тільки де потрібно){%- endcomment -%}
+    {%- assign is_pdp_or_collection = false -%}
+    {%- if request.page_type == 'product' or request.page_type == 'collection' -%}
+      {%- assign is_pdp_or_collection = true -%}
+    {%- endif -%}
+    var isPdpOrCollection = {{ is_pdp_or_collection | json }};
+    if (isPdpOrCollection) {
+      var reviewsSelector = '[data-reviews-io], .reviews-io, #r-widget, .rating-snippet, .rvw-widget';
+      window.DeferLib.loadWhenVisible(reviewsSelector, [
+        { src: 'https://widget.reviews.io/modern-widgets/rating-bar.js' },
+        { src: 'https://widget.reviews.io/polaris/build.js' },
+        { src: 'https://widget.reviews.io/rating-snippet/dist.js' }
+      ]);
+    }
+
+    {%- comment -%}GROUP 2: Взаємодія користувача (маркетинг, підписки, аналітика){%- endcomment -%}
+    window.DeferLib.loadGroupOnInteraction([
+      { src: 'https://static.rechargecdn.com/assets/static/js/widget.min.js', attrs: { 'data-usercentrics': 'Recharge', type: 'text/plain' } },
+      { src: 'https://cdn.intelligems.io/esm/b9bad714bc5f/bundle.js', attrs: { type: 'module' } },
+      { src: 'https://cdn.ablyft.com/s/67024591.js' },
+      { src: 'https://scripts.clarity.ms/0.8.38/clarity.js', attrs: { 'data-usercentrics': 'Microsoft Clarity', type: 'text/plain' } },
+      { src: 'https://widget.gotolstoy.com/we/widget.js', attrs: { defer: 'true' } }
+    ]);
+
+    {%- comment -%}GROUP 3: Idle загрузка (некритичні треккери, віджети){%- endcomment -%}
+    window.DeferLib.loadGroupWhenIdle([
+      { src: 'https://cdn-app.cart-bot.net/js/main.js?shop=thefemalecompany.myshopify.com', attrs: { defer: 'true' } },
+      { src: 'https://scripting.tracify.ai/tracifyv2.js?csid=2a1c10da-0579-4f5e-a908-57d624a0cf2e', attrs: { defer: 'true' } }
+    ]);
+
+    {%- comment -%}Yotpo Loyalty widget - тільки якщо є на сторінці{%- endcomment -%}
+    {%- if settings.yotpo_app_key != blank -%}
+      var yotpoSelector = '[data-yotpo-instance-id], .yotpo-widget-instance';
+      window.DeferLib.loadWhenVisible(yotpoSelector, [
+        { src: 'https://cdn-widgetsrepository.yotpo.com/v1/loader/{{ settings.yotpo_app_key }}', attrs: { defer: 'true' } }
+      ]);
+    {%- endif -%}
+  });
+</script>
+<!-- Start Intelligems (deferred via DeferLib) -->
+<script>
+  window.Shopify = window.Shopify || {theme: {id: {{ theme.id }}, role: '{{ theme.role }}' } };
   window._template = {
     directory: "{{ template.directory }}",
     name: "{{ template.name }}",
-    suffix: "{{ template_suffix }}"
-  };
-</script>
-
-
-<script type="module" src="https://cdn.intelligems.io/esm/b9bad714bc5f/bundle.js"></script>
+    suffix: "{{ template.suffix }}"
+  }
+</script> 
+<!-- Intelligems loaded via DeferLib -->
 <!-- End Intelligems -->
 {% for js_asset in js_assets %}
   <script src="{{ js_asset | asset_url }}" defer></script>
@@ -253,4 +433,14 @@
       }
     );
   });
+
+  {%- if request.page_type == 'product' -%}
+  // Remove duplicate Reviews.io JSON-LD schema
+  document.addEventListener('DOMContentLoaded', function() {
+    const reviewsSchema = document.getElementById('reviewsWidgetProductSnippets');
+    if (reviewsSchema) {
+      reviewsSchema.remove();
+    }
+  });
+  {%- endif -%}
 </script>

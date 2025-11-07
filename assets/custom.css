@@ -363,3 +363,8 @@ ig-shipping-progress-container .ig-dp-container {
   top: -0.6em;
   right: 0.2em;
 }
+
+/* Hide duplicate Reviews.io JSON-LD schema on product pages */
+#reviewsWidgetProductSnippets {
+  display: none !important;
+}

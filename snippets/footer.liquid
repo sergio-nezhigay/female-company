@@ -1,20 +1,95 @@
-<!-- Linkster -->
+{%- comment -%}Linkster - відкладене завантаження{%- endcomment -%}
 {% if request.locale.iso_code == 'nl'%}
   {%- assign linkster_campaign_id = '411' -%}
 {% else %}
   {%- assign linkster_campaign_id = '239' -%}
 {% endif %}
 
-<script defer data-usercentrics="Linkster" type="text/plain" src="https://trck.linkster.co/trck/etms/eatms.js?campaign_id={{ linkster_campaign_id }}"></script>
+<script>
+  (function() {
+    function loadLinkster() {
+      if (window.linksterLoaded) return;
+      window.linksterLoaded = true;
+
+      var script = document.createElement('script');
+      script.defer = true;
+      script.type = 'text/plain';
+      script.setAttribute('data-usercentrics', 'Linkster');
+      script.src = 'https://trck.linkster.co/trck/etms/eatms.js?campaign_id={{ linkster_campaign_id }}';
+      document.body.appendChild(script);
+    }
+
+    {%- comment -%}Завантаження на idle{%- endcomment -%}
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadLinkster, { timeout: 12000 });
+    } else {
+      setTimeout(loadLinkster, 12000);
+    }
+  })();
+</script>
 
 
-<!-- Klaviyo -->
-<script defer type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
-<script defer src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script> {%- comment -%}Required for back in stock{%- endcomment -%}
-<script defer src="{{ "klaviyo-custom.js" | asset_url }}"></script>
+{%- comment -%}Klaviyo - відкладене завантаження після взаємодії{%- endcomment -%}
+{%- if request.page_type != 'product' -%}
+  <script>
+    (function() {
+      function loadKlaviyo() {
+        if (window.klaviyoLoaded) return;
+        window.klaviyoLoaded = true;
+        
+        var scripts = [
+          '//www.klaviyo.com/media/js/public/klaviyo_subscribe.js',
+          'https://a.klaviyo.com/media/js/onsite/onsite.js',
+          '{{ "klaviyo-custom.js" | asset_url }}'
+        ];
+        
+        scripts.forEach(function(src) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.defer = true;
+          s.setAttribute('type', 'text/plain');
+          s.setAttribute('data-usercentrics', 'Klaviyo');
+          document.body.appendChild(s);
+        });
+      }
 
-<!-- Trustpilot -->
-<script defer data-usercentrics="Trustpilot" type="text/plain" src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"></script>
+      // Завантаження після першої взаємодії або через 5 секунд
+      var events = ['scroll', 'mousemove', 'touchstart', 'keydown'];
+      var timeout = setTimeout(loadKlaviyo, 5000);
+      
+      events.forEach(function(event) {
+        window.addEventListener(event, function() {
+          clearTimeout(timeout);
+          loadKlaviyo();
+        }, { once: true, passive: true });
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{%- comment -%}Trustpilot - відкладене завантаження на idle{%- endcomment -%}
+<script>
+  (function() {
+    function loadTrustpilot() {
+      if (window.trustpilotLoaded) return;
+      window.trustpilotLoaded = true;
+
+      var script = document.createElement('script');
+      script.defer = true;
+      script.type = 'text/plain';
+      script.setAttribute('data-usercentrics', 'Trustpilot');
+      script.src = 'https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js';
+      document.body.appendChild(script);
+    }
+
+    {%- comment -%}Завантаження на idle або через 10 секунд{%- endcomment -%}
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadTrustpilot, { timeout: 10000 });
+    } else {
+      setTimeout(loadTrustpilot, 10000);
+    }
+  })();
+</script>
 
 <!-- Reviews.io -->
 <script>
@@ -54,17 +129,4 @@
   window.addEventListener('product-facet:rerender', renderReviewsIoWidgets);
 </script>
 
-<!-- LinkedIn Insight Tag -->
-<script type="text/plain" data-usercentrics="LinkedIn Insight Tag">
-  _linkedin_partner_id = "7526625"; 
-  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-</script>
-<script type="text/plain" data-usercentrics="LinkedIn Insight Tag">
-  (function(l) { if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
-  window.lintrk.q=[]} var s = document.getElementsByTagName("script")[0];
-  var b = document.createElement("script");
-  b.type = "text/javascript";b.async = true;
-  b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
-  s.parentNode.insertBefore(b, s);})(window.lintrk);
-</script>
+{%- comment -%}LinkedIn Insight Tag тепер завантажується через optimized-analytics.liquid{%- endcomment -%}

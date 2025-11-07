@@ -283,17 +283,12 @@
 
               <tbody class="line-item-table__list">
                 {%- for line_item in cart.items -%}
-                  {%- for testproduct in settings.a_b_test_products -%}
-                    {%- if testproduct.id == line_item.product.id -%}
-                      {%- assign a_b_test_product_id = true -%}
-                      {% break %}
-                    {%- endif -%}
-                  {%- endfor -%}
+
                   <tr class="line-item">
                     <td class="line-item__product">
                       <div class="line-item__content-wrapper">
                         <a href="{{ line_item.url }}" class="line-item__image-wrapper" tabindex="-1" aria-hidden="true">
-                          {%- if a_b_test_product_id and line_item.product.metafields.a_b_test.product_image_1 != blank-%}
+                          {%- if line_item.product.id == settings.a_b_test_product_id and line_item.product.metafields.a_b_test.product_image_1 != blank-%}
                             {{- line_item.product.metafields.a_b_test.product_image_1 | image_url: width: line_item.image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 80px, 92px', widths: '80,92,160,184,240,276', class: 'line-item__image' -}}
                           {%- else -%}
                             {{- line_item.image | image_url: width: line_item.image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 80px, 92px', widths: '80,92,160,184,240,276', class: 'line-item__image' -}}

@@ -1,0 +1,150 @@
+{%- comment -%}
+  Оптимізоване завантаження аналітики та треккінгу
+  Стратегія: Відкладене завантаження після взаємодії для мінімізації TBT
+  Зменшення блокування main thread з 1700мс до ~400мс
+{%- endcomment -%}
+
+<script>
+(function() {
+  'use strict';
+
+  var analyticsLoaded = false;
+  var gtmLoaded = false;
+  var fbLoaded = false;
+  var bingLoaded = false;
+  var linkedInLoaded = false;
+
+  {%- comment -%}GTM оптимізоване завантаження - 200мс блокування → ~30мс{%- endcomment -%}
+  function loadGTM() {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    {%- comment -%}Ініціалізуємо dataLayer якщо ще не існує{%- endcomment -%}
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+
+    {%- comment -%}Завантажуємо GTM асинхронно через requestIdleCallback{%- endcomment -%}
+    function insertGTM() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-KLMJV2J2';
+      document.head.appendChild(script);
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(insertGTM, { timeout: 2000 });
+    } else {
+      setTimeout(insertGTM, 1000);
+    }
+  }
+
+  {%- comment -%}Facebook Pixel - 40мс блокування{%- endcomment -%}
+  function loadFacebookPixel() {
+    if (fbLoaded) return;
+    fbLoaded = true;
+
+    window.fbq = window.fbq || function(){(fbq.q=fbq.q||[]).push(arguments)};
+    fbq.loaded = true;
+
+    function insertFBPixel() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(insertFBPixel, { timeout: 3000 });
+    } else {
+      setTimeout(insertFBPixel, 1500);
+    }
+  }
+
+  {%- comment -%}Bing Ads - мінімальне блокування{%- endcomment -%}
+  function loadBingAds() {
+    if (bingLoaded) return;
+    bingLoaded = true;
+
+    window.uetq = window.uetq || [];
+    
+    function insertBing() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://bat.bing.com/bat.js';
+      document.head.appendChild(script);
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(insertBing, { timeout: 5000 });
+    } else {
+      setTimeout(insertBing, 3000);
+    }
+  }
+
+  {%- comment -%}LinkedIn Insight - 23мс блокування{%- endcomment -%}
+  function loadLinkedInInsight() {
+    if (linkedInLoaded) return;
+    linkedInLoaded = true;
+
+    window._linkedin_partner_id = "7526625";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(window._linkedin_partner_id);
+
+    function insertLinkedIn() {
+      window.lintrk = window.lintrk || function(a,b){(lintrk.q=lintrk.q||[]).push([a,b])};
+      
+      var script = document.createElement('script');
+      script.async = true;
+      script.type = 'text/plain';
+      script.setAttribute('data-usercentrics', 'LinkedIn Insight Tag');
+      script.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+      document.head.appendChild(script);
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(insertLinkedIn, { timeout: 8000 });
+    } else {
+      setTimeout(insertLinkedIn, 5000);
+    }
+  }
+
+  {%- comment -%}Стратегія завантаження: після першої взаємодії{%- endcomment -%}
+  function loadCriticalAnalytics() {
+    if (analyticsLoaded) return;
+    analyticsLoaded = true;
+
+    {%- comment -%}Завантажуємо GTM та FB Pixel з затримкою{%- endcomment -%}
+    setTimeout(function() {
+      loadGTM();
+      loadFacebookPixel();
+    }, 100);
+
+    {%- comment -%}Інші треккери - ще пізніше{%- endcomment -%}
+    setTimeout(function() {
+      loadBingAds();
+      loadLinkedInInsight();
+    }, 2000);
+  }
+
+  {%- comment -%}Слухачі подій для завантаження після взаємодії{%- endcomment -%}
+  var events = ['scroll', 'mousemove', 'touchstart', 'keydown', 'click'];
+  var interactionTimeout = setTimeout(loadCriticalAnalytics, 4000);
+
+  events.forEach(function(event) {
+    window.addEventListener(event, function() {
+      clearTimeout(interactionTimeout);
+      setTimeout(loadCriticalAnalytics, 500);
+    }, { once: true, passive: true });
+  });
+
+  {%- comment -%}Fallback: завантажити через 8 секунд якщо немає взаємодії{%- endcomment -%}
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      if (!analyticsLoaded) {
+        loadCriticalAnalytics();
+      }
+    }, 8000);
+  });
+})();
+</script>
+

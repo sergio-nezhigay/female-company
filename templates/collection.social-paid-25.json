@@ -35,18 +35,18 @@
         "end_day": 31,
         "end_time": "10:00",
         "section_subheading": "",
-        "section_heading": "Spare jetzt bis zu 70% im größten Sale des Jahres",
+        "section_heading": "Non-Toxic Period Pantys",
         "allow_heading_override": false,
         "section_short_description": "<p>Geprüft auf über 1.000 Schadstoffe. Entwickelt von Expert*innen. Saugstärke von unabhängigen Textiltechnolog*innen zertifiziert.</p>",
         "heading_size": "h3",
         "highest_hierarchy": false,
         "section_heading_font_family": "default",
         "short_description_font_size": "medium",
-        "section_text_color": "#ffffff",
-        "section_heading_color": "#ffffff",
+        "section_text_color": "rgba(0,0,0,0)",
+        "section_heading_color": "rgba(0,0,0,0)",
         "section_subheading_color": "rgba(0,0,0,0)",
         "section_container_width": "sm",
-        "section_background_color": "#cc0807",
+        "section_background_color": "#f58e9e",
         "section_spacing_top": 32,
         "section_spacing_bottom": 8,
         "section_spacing_different_mobile": false,
@@ -57,75 +57,19 @@
     "discount_code_showcase_P9ULWr": {
       "type": "discount-code-showcase",
       "settings": {
-        "fixed_discount_code": "VULVA20",
-        "fixed_discount_amount": "20%",
-        "inner_section_background": "#ffffff",
+        "fixed_discount_code": "VULVA_12",
+        "fixed_discount_amount": "12%",
+        "inner_section_background": "#ffd9d9",
         "discount_badge_background": "#ea697d",
         "discount_badge_text_color": "#ffffff",
         "section_container_width": "xxs",
-        "section_background_color": "#cc0807",
+        "section_background_color": "#f58e9e",
         "section_text_color": "rgba(0,0,0,0)",
         "section_heading_color": "rgba(0,0,0,0)",
         "section_spacing_top": 16,
         "section_spacing_bottom": 16,
         "section_spacing_different_mobile": false,
         "section_spacing_top_mobile": 0,
-        "section_spacing_bottom_mobile": 0
-      }
-    },
-    "featured_collections_TGgPXM": {
-      "type": "featured-collections",
-      "blocks": {
-        "collection_PCffg4": {
-          "type": "collection",
-          "settings": {
-            "collection": "sleep",
-            "label": "",
-            "button_text": "",
-            "button_url": "",
-            "hide_from_product_title_start": "",
-            "filterable_options": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_PCffg4"
-      ],
-      "name": "Featured collections",
-      "settings": {
-        "start_year": 2025,
-        "start_month": 1,
-        "start_day": 1,
-        "start_time": "10:00",
-        "end_year": 2050,
-        "end_month": 12,
-        "end_day": 31,
-        "end_time": "10:00",
-        "products_count": 8,
-        "products_per_row": 4,
-        "stack_products": true,
-        "show_cta": false,
-        "filter_toggle_button_background": "rgba(0,0,0,0)",
-        "filter_toggle_active_button_background": "rgba(0,0,0,0)",
-        "filter_toggle_button_color": "rgba(0,0,0,0)",
-        "button_background": "rgba(0,0,0,0)",
-        "button_text_color": "rgba(0,0,0,0)",
-        "subheading": "",
-        "title": "",
-        "content": "",
-        "section_header_heading_size": "h3",
-        "section_header_highest_hierarchy": false,
-        "section_header_short_description_font_size": "medium",
-        "section_container_width": "md",
-        "background": "rgba(0,0,0,0)",
-        "text_color": "rgba(0,0,0,0)",
-        "heading_color": "rgba(0,0,0,0)",
-        "section_subheading_color": "rgba(0,0,0,0)",
-        "section_heading_font_family": "default",
-        "section_spacing_top": 60,
-        "section_spacing_bottom": 68,
-        "section_spacing_different_mobile": true,
-        "section_spacing_top_mobile": 24,
         "section_spacing_bottom_mobile": 0
       }
     },
@@ -140,7 +84,7 @@
             "button_text": "Show more",
             "button_url": "",
             "hide_from_product_title_start": "",
-            "filterable_options": "Farbe"
+            "filterable_options": ""
           }
         }
       },
@@ -251,7 +195,6 @@
     "marquee_k98Ean",
     "section_header_TpgfHq",
     "discount_code_showcase_P9ULWr",
-    "featured_collections_TGgPXM",
     "featured_collections_7t7y4M",
     "collection-banner",
     "main"

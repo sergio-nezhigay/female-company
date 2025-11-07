@@ -49,6 +49,7 @@ NOTE TO DEVELOPERS: welcome to Focal theme! We hope that you will enjoy editing 
     {%- comment -%}Preload important resources{%- endcomment -%}
     <link rel="preload" as="style" href="{{ 'theme.css' | asset_url }}">
     <link rel="preload" as="script" href="{{ 'vendor.js' | asset_url }}">
+    {%- comment -%} Avoid preloading theme.js to reduce early parse/exec on PageFly pages {%- endcomment -%}
     <link rel="preload" as="script" href="{{ 'theme.js' | asset_url }}">
 
     {%- comment -%}
@@ -78,7 +79,21 @@ NOTE TO DEVELOPERS: welcome to Focal theme! We hope that you will enjoy editing 
     <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
 
     <script src="{{ 'vendor.js' | asset_url }}" defer></script>
-    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    {%- comment -%} Load theme.js only after first interaction on PageFly pages {%- endcomment -%}
+    <script>
+      (function(){
+        function load(){
+          var s=document.createElement('script');
+          s.src='{{ 'theme.js' | asset_url }}';
+          s.defer=true;document.head.appendChild(s);
+        }
+        var fired=false;function once(){if(fired)return;fired=true;load();}
+        window.addEventListener('scroll',once,{passive:true,once:true});
+        window.addEventListener('mousemove',once,{passive:true,once:true});
+        window.addEventListener('touchstart',once,{passive:true,once:true});
+        setTimeout(once,5000);
+      })();
+    </script>
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}

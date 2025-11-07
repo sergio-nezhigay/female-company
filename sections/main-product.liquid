@@ -1,12 +1,4 @@
-{% assign full_header = content_for_header %}
-{% if full_header contains 'view=quick-buy-drawer' %}
-  {% assign template_suffix = 'quick-buy-drawer' %}
-{% elsif full_header contains 'view=quick-buy-popover' %}
-  {% assign template_suffix = 'quick-buy-popover' %}
-{% else %}
-  {% assign template_suffix = template.suffix %}
-{% endif %}
-{%- unless template_suffix contains 'quick-buy' or template_suffix contains 'product-info' -%}
+{%- unless template.suffix contains 'quick-buy' or template.suffix contains 'product-info' -%}
   <style>
     #shopify-section-{{ section.id }} {
       {%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
@@ -86,7 +78,7 @@
       </div>
     </div>
   </section>
-{%- elsif template_suffix contains 'quick-buy' -%}
+{%- elsif template.suffix contains 'quick-buy' -%}
   {%- comment -%}
   The quick shop HTML being very different, we render it here. On mobile and tablet/desktop, the product renders also
   quite differently, as it is in a drawer on tablet/desktop, and a popover on mobile.
@@ -96,22 +88,22 @@
     <div class="quick-buy-product">
       {%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
 
-      {%- if template_suffix == 'quick-buy-drawer' -%}
+      {%- if template.suffix == 'quick-buy-drawer' -%}
         {{- featured_media | image_url: width: featured_media.width | image_tag: loading: 'lazy', sizes: '114px', widths: '114,228,342', class: 'quick-buy-product__image' -}}
       {%- else -%}
         {{- featured_media | image_url: width: featured_media.width | image_tag: loading: 'lazy', sizes: '65px', widths: '65,130,195', class: 'quick-buy-product__image' -}}
       {%- endif -%}
 
-      <div class="quick-buy-product__info {% if template_suffix == 'quick-buy-popover' %}text--small{% endif %}">
+      <div class="quick-buy-product__info {% if template.suffix == 'quick-buy-popover' %}text--small{% endif %}">
         <product-meta form-id="product-form-{{ section.id }}-{{ product.id }}" unit-price-class="text--xsmall" class="product-item-meta">
           {%- if section.settings.show_vendor -%}
             {%- assign vendor_handle = product.vendor | handle -%}
             {%- assign collection_for_vendor = collections[vendor_handle] -%}
 
             {%- unless collection_for_vendor.empty? -%}
-              <a href="{{ collection_for_vendor.url }}" class="product-item-meta__vendor heading {% if template_suffix == 'quick-buy-drawer' %}heading--small{% else %}heading--xsmall{% endif %}">{{ product.vendor }}</a>
+              <a href="{{ collection_for_vendor.url }}" class="product-item-meta__vendor heading {% if template.suffix == 'quick-buy-drawer' %}heading--small{% else %}heading--xsmall{% endif %}">{{ product.vendor }}</a>
             {%- else -%}
-              <a href="{{ product.vendor | url_for_vendor }}" class="product-item-meta__vendor heading {% if template_suffix == 'quick-buy-drawer' %}heading--small{% else %}heading--xsmall{% endif %}">{{ product.vendor }}</a>
+              <a href="{{ product.vendor | url_for_vendor }}" class="product-item-meta__vendor heading {% if template.suffix == 'quick-buy-drawer' %}heading--small{% else %}heading--xsmall{% endif %}">{{ product.vendor }}</a>
             {%- endunless -%}
           {%- endif -%}
 
@@ -172,7 +164,7 @@
             </div>
           {% endif %}
 
-          {%- if template_suffix == 'quick-buy-popover' or template_suffix == 'quick-buy-drawer' -%}
+          {%- if template.suffix == 'quick-buy-popover' or template.suffix == 'quick-buy-drawer' -%}
             <a href="{{ product.url }}" class="link text--subdued">{{ 'product.general.view_details' | t }}</a>
           {%- endif -%}
 
@@ -181,7 +173,7 @@
     </div>
   {%- endcapture -%}
 
-  {%- if template_suffix == 'quick-buy-drawer' -%}
+  {%- if template.suffix == 'quick-buy-drawer' -%}
     <quick-buy-drawer class="drawer drawer--large drawer--quick-buy">
       <cart-notification hidden class="cart-notification cart-notification--drawer"></cart-notification>
 
@@ -200,7 +192,7 @@
         {%- render 'product-form', product: product -%}
       </div>
     </quick-buy-drawer>
-  {%- elsif template_suffix == 'quick-buy-popover' -%}
+  {%- elsif template.suffix == 'quick-buy-popover' -%}
     <quick-buy-popover class="popover popover--quick-buy">
       <span class="popover__overlay"></span>
 
@@ -217,7 +209,7 @@
       </div>
     </quick-buy-popover>
   {%- endif -%}
-{%- elsif template_suffix contains 'product-info' -%}
+{%- elsif template.suffix contains 'product-info' -%}
   {%- capture product_info_content -%}
     <div class="product-media__container">
       {%- render 'product-media', product: product -%}
@@ -226,7 +218,7 @@
     {%- render 'product-info', product: product, featured: true -%}
   {%- endcapture -%}
 
-  {%- if template_suffix == 'product-info-drawer' -%}
+  {%- if template.suffix == 'product-info-drawer' -%}
     <product-info-drawer class="drawer drawer--large drawer--product-info">
       <span class="drawer__overlay"></span>
 
@@ -242,7 +234,7 @@
         {{ product_info_content }}
       </div>
     </product-info-drawer>
-  {%- elsif template_suffix == 'product-info-popover' -%}
+  {%- elsif template.suffix == 'product-info-popover' -%}
     <product-info-popover class="popover popover--product-info">
       <span class="popover__overlay"></span>
 

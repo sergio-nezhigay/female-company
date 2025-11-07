@@ -50,9 +50,9 @@
       {%- endif -%}
 
       {%- if heading != blank -%}
-        <{{ heading_tag }} class="heading js-section-header-heading {{ heading_size }}">
+        <{{ heading_size }} class="heading js-section-header-heading {{ heading_size }}">
           {{- heading | newline_to_br -}}
-        </{{ heading_tag }}>
+        </{{ heading_size }}>
       {%- endif -%}
 
       {%- if short_description != blank -%}

@@ -1,0 +1,177 @@
+{%- comment -%}
+  ========================================
+  SHOPIFY HEAD.LIQUID INTEGRATION EXAMPLE
+  ========================================
+
+  This shows how to integrate the third-party script optimizer
+  into your Shopify theme's snippets/head.liquid file.
+
+  Add this code in your <head> section, after your main CSS/JS
+  but before closing </head>.
+{%- endcomment -%}
+
+<!-- Load core defer library (minified version recommended for production) -->
+<script src="{{ 'defer-third-party.js' | asset_url }}" async></script>
+
+<!-- Optimized analytics loader -->
+{% render 'optimized-analytics' %}
+
+<!-- Third-party widget optimizer -->
+{% render 'third-party-optimizer' %}
+
+<!-- Orchestrate script loading based on page type and user interaction -->
+<script>
+(function() {
+  'use strict';
+
+  // Wait for DeferLib to be available
+  function waitForDeferLib(callback) {
+    if (window.DeferLib) {
+      callback();
+    } else {
+      setTimeout(function() { waitForDeferLib(callback); }, 100);
+    }
+  }
+
+  window.addEventListener('load', function() {
+    waitForDeferLib(function() {
+
+      // GROUP 1: Reviews.io - visibility-driven (Product/Collection pages only)
+      {% if request.page_type == 'product' or request.page_type == 'collection' %}
+      if (window.DeferLib) {
+        window.DeferLib.loadWhenVisible('[data-reviews-io], .reviews-io, #r-widget', [
+          { src: 'https://widget.reviews.io/modern-widgets/rating-bar.js' },
+          { src: 'https://widget.reviews.io/polaris/build.js' },
+          { src: 'https://widget.reviews.io/rating-snippet/dist.js' }
+        ]);
+      }
+      {% endif %}
+
+      // GROUP 2: On-interaction loads (non-critical widgets)
+      if (window.DeferLib) {
+        window.DeferLib.loadGroupOnInteraction([
+          // Recharge subscription widget
+          {% if settings.recharge_enabled %}
+          { src: 'https://static.rechargecdn.com/assets/static/js/widget.min.js', attrs: { 'data-usercentrics': 'Recharge' } },
+          {% endif %}
+
+          // Microsoft Clarity (heatmaps/session recording)
+          {% if settings.clarity_project_id != blank %}
+          { src: 'https://www.clarity.ms/tag/{{ settings.clarity_project_id }}', attrs: { async: 'true' } },
+          {% endif %}
+
+          // Ably (real-time messaging)
+          {% if settings.ably_enabled %}
+          { src: 'https://cdn.ably.com/lib/ably.min-1.js', attrs: { async: 'true' } },
+          {% endif %}
+
+          // GoTolstoy video widget
+          { src: 'https://widget.gotolstoy.com/we/widget.js', attrs: { defer: 'true' } }
+        ]);
+      }
+
+      // GROUP 3: Idle loads (lowest priority)
+      if (window.DeferLib) {
+        window.DeferLib.loadGroupWhenIdle([
+          // CartBot AI assistant
+          {% if settings.cartbot_enabled %}
+          { src: 'https://cdn-app.cart-bot.net/loader.js', attrs: { 'data-shop': '{{ shop.permanent_domain }}' } },
+          {% endif %}
+
+          // Tracify analytics
+          {% if settings.tracify_enabled %}
+          { src: 'https://scripting.tracify.ai/v2/script.js', attrs: { 'data-shop-id': '{{ shop.id }}', defer: 'true' } }
+          {% endif %}
+        ]);
+      }
+
+      // Conditional: Yotpo (only if app key is set)
+      {% if settings.yotpo_app_key != blank %}
+      if (window.DeferLib) {
+        window.DeferLib.loadGroupOnInteraction([
+          { src: 'https://cdn-widgetsrepository.yotpo.com/v1/loader/{{ settings.yotpo_app_key }}', attrs: { defer: 'true' } }
+        ]);
+      }
+      {% endif %}
+
+    });
+  });
+})();
+</script>
+
+{%- comment -%}
+  REQUIRED THEME SETTINGS:
+  Add these to your config/settings_schema.json to enable configuration:
+
+  {
+    "name": "Third-Party Scripts",
+    "settings": [
+      {
+        "type": "text",
+        "id": "gtm_id",
+        "label": "Google Tag Manager ID",
+        "info": "Format: GTM-XXXXXX"
+      },
+      {
+        "type": "text",
+        "id": "facebook_pixel_id",
+        "label": "Facebook Pixel ID"
+      },
+      {
+        "type": "text",
+        "id": "bing_uet_tag_id",
+        "label": "Bing UET Tag ID"
+      },
+      {
+        "type": "text",
+        "id": "linkedin_partner_id",
+        "label": "LinkedIn Partner ID"
+      },
+      {
+        "type": "text",
+        "id": "yotpo_app_key",
+        "label": "Yotpo App Key"
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_company_id",
+        "label": "Klaviyo Company ID"
+      },
+      {
+        "type": "text",
+        "id": "clarity_project_id",
+        "label": "Microsoft Clarity Project ID"
+      },
+      {
+        "type": "checkbox",
+        "id": "recharge_enabled",
+        "label": "Enable Recharge optimization",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "reviews_io_enabled",
+        "label": "Enable Reviews.io optimization",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "cartbot_enabled",
+        "label": "Enable CartBot",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "tracify_enabled",
+        "label": "Enable Tracify",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "ably_enabled",
+        "label": "Enable Ably",
+        "default": false
+      }
+    ]
+  }
+{%- endcomment -%}

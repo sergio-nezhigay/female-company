@@ -52,35 +52,35 @@
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Lace_Slip_Bubble.png",
-            "link": "https://buy.thefemalecompany.com/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=Slip&filter.v.price.gte=&filter.v.price.lte=&filter.v.availability=1"
+            "link": "https://buy.thefemalecompany.com/en/collections/lace-spitze-periodenunterwaesche?filter.p.m.filters.style=briefs&sort_by=manual"
           }
         },
         "template--17669741314314__4882da3e-a7b7-48ff-992c-fd877cc635e9-logo-2": {
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Lace_High_Waist_Bubble.png",
-            "link": "https://buy.thefemalecompany.com/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=High+Waist&filter.v.availability=1&filter.v.price.gte=&filter.v.price.lte="
+            "link": "https://buy.thefemalecompany.com/en/collections/lace-spitze-periodenunterwaesche?filter.p.m.filters.style=high+waist&sort_by=manual"
           }
         },
         "logo_WtJVYh": {
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Frame_1_6.png",
-            "link": "https://buy.thefemalecompany.com/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=Brazilian&filter.v.availability=1&filter.v.price.gte=&filter.v.price.lte="
+            "link": "/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=Brazilian"
           }
         },
         "logo_qAENkH": {
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Frame_1_9.png",
-            "link": "https://buy.thefemalecompany.com/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=Hipster&filter.v.availability=1&filter.v.price.gte=&filter.v.price.lte="
+            "link": "/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=Hipster"
           }
         },
         "logo_cyYHjk": {
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Frame_1_4_c3328643-b25a-4d98-bc2f-12e645124b8c.png",
-            "link": "https://buy.thefemalecompany.com/en/collections/lace-spitze-periodenunterwaesche?sort_by=manual&filter.p.m.filters.style=Thong&filter.v.price.gte=&filter.v.price.lte=&filter.v.availability=1"
+            "link": "https://buy.thefemalecompany.com/en/collections/lace-spitze-periodenunterwaesche?filter.p.m.filters.style=tanga&sort_by=manual"
           }
         }
       },
@@ -287,14 +287,6 @@
     "7cc3d404-c5c7-4cfc-8124-8c91cd082923": {
       "type": "button",
       "settings": {
-        "start_year": 2025,
-        "start_month": 1,
-        "start_day": 1,
-        "start_time": "10:00",
-        "end_year": 2050,
-        "end_month": 12,
-        "end_day": 31,
-        "end_time": "10:00",
         "button_text": "Zurück nach oben",
         "button_link": "#top",
         "button_link_new_window": false,
@@ -323,17 +315,8 @@
     "6a453231-19fd-480f-bd79-5a5ad1c669a9": {
       "type": "section-header",
       "settings": {
-        "start_year": 2025,
-        "start_month": 1,
-        "start_day": 1,
-        "start_time": "10:00",
-        "end_year": 2050,
-        "end_month": 12,
-        "end_day": 31,
-        "end_time": "10:00",
         "section_subheading": "Mehr Reviews auf Reviews.io",
         "section_heading": "",
-        "allow_heading_override": false,
         "section_short_description": "",
         "heading_size": "h3",
         "highest_hierarchy": false,
@@ -426,14 +409,6 @@
     "4f19f758-87c3-4595-ac6d-67ef58cb4b7b": {
       "type": "button",
       "settings": {
-        "start_year": 2025,
-        "start_month": 1,
-        "start_day": 1,
-        "start_time": "10:00",
-        "end_year": 2050,
-        "end_month": 12,
-        "end_day": 31,
-        "end_time": "10:00",
         "button_text": "Zum Hilfe-Center",
         "button_link": "https://help.thefemalecompany.com/",
         "button_link_new_window": true,

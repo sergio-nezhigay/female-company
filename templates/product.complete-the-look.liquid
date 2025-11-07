@@ -3,13 +3,6 @@
 {%- assign quick_buy_icon_name = 'quick-buy-' | append: settings.cart_icon | replace: '_', '-' -%}
 {%- assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id -%}
 
-{%- for testproduct in settings.a_b_test_products -%}
-  {%- if testproduct.id == product.id -%}
-    {%- assign a_b_test_product_id = true -%}
-    {% break %}
-  {%- endif -%}
-{%- endfor -%}
-
 {%- if product.url contains '?' -%}
   {%- assign product_url_contains_query = true -%}
 {%- else -%}
@@ -485,7 +478,7 @@
           <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
         {%- endif -%}
 
-        {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+        {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
           <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
         {%- endif -%}
 
@@ -533,7 +526,7 @@
       <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
     {%- endif -%}
 
-    {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+    {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
       <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
     {%- endif -%}
 

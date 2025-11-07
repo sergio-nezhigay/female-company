@@ -61,10 +61,11 @@
     },
     "rich_text_aakhLY": {
       "type": "rich-text",
+      "disabled": true,
       "name": "Rich text",
       "settings": {
         "subheading": "",
-        "title": "Spare jetzt bis zu 70% im größten Sale des Jahres",
+        "title": "Summersale",
         "content": "",
         "button_text": "",
         "button_link": "",
@@ -72,8 +73,8 @@
         "text_width": "medium",
         "text_position": "center",
         "text_alignment": "center",
-        "background": "#ffffff",
-        "text_color": "#cc0807",
+        "background": "rgba(0,0,0,0)",
+        "text_color": "rgba(0,0,0,0)",
         "button_background": "rgba(0,0,0,0)",
         "button_text_color": "rgba(0,0,0,0)"
       }
@@ -97,7 +98,6 @@
         },
         "template--17777087021322__5012c18a-1b12-44a4-82f7-f570a35cc02e-logo-3": {
           "type": "logo",
-          "disabled": true,
           "settings": {
             "logo": "shopify://shop_images/Frame_96_60f61dda-a578-4f50-a6aa-3e57ccb64eec.png",
             "link": "https://buy.thefemalecompany.com/collections/all?sort_by=manual&filter.v.availability=1&filter.p.product_type=Swim&filter.v.price.gte=&filter.v.price.lte="
@@ -117,7 +117,7 @@
         "max_width_logo_mobile": 100,
         "logo_background": "rgba(0,0,0,0)",
         "section_container_width": "md",
-        "section_background_color": "#ffffff",
+        "section_background_color": "rgba(0,0,0,0)",
         "section_spacing_top": 0,
         "section_spacing_bottom": 0,
         "section_spacing_different_mobile": true,

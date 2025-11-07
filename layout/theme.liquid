@@ -15,10 +15,46 @@ NOTE TO DEVELOPERS: welcome to Focal theme! We hope that you will enjoy editing 
 {%- endcase -%}
 <html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% comment %}ly_dir_replace_for_[{{ direction }}]_begin{% endcomment %}{%- assign language_code = '_' | append: request.locale.iso_code -%}{%- if '_ar_ha_he_fa_ks_ku_ps_ur_yi' contains language_code -%}{%- assign dir = 'rtl' -%}{%- else -%}{%- capture dir -%}{{ direction }}{%- endcapture -%}{%- endif -%}{{- dir -}}{% comment %}ly_dir_replace_end{% endcomment %}">
   <head>{% render "load-tracify" %}    
-    {% capture modified_content_for_header %}
-      {{ content_for_header }}
-    {% endcapture %}
+    {%- if request.page_type == 'product' -%}
+      {%- assign content_parts = content_for_header | split: '<script id="reviewsWidgetProductSnippets"' -%}
+      {%- if content_parts.size > 1 -%}
+        {%- assign script_end_parts = content_parts[1] | split: '</script>' -%}
+        {%- assign modified_content_for_header = content_parts[0] -%}
+        {%- for i in (1..script_end_parts.size) -%}
+          {%- unless forloop.first -%}
+            {%- assign modified_content_for_header = modified_content_for_header | append: script_end_parts[i] -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign modified_content_for_header = content_for_header -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- assign modified_content_for_header = content_for_header -%}
+    {%- endif -%}
     {% render 'head', modified_content_for_header: modified_content_for_header, direction: direction %}
+    
+    <!-- hreflang alternates -->
+    <link rel="alternate" hreflang="x-default" href="https://buy.thefemalecompany.com/">
+    
+    <!-- German -->
+    <link rel="alternate" hreflang="de" href="https://buy.thefemalecompany.com/">
+    <link rel="alternate" hreflang="de-DE" href="https://buy.thefemalecompany.com/">
+    <link rel="alternate" hreflang="de-BE" href="https://buy.thefemalecompany.com/de-be">
+    <link rel="alternate" hreflang="de-CH" href="https://buy.thefemalecompany.com/de-ch">
+    <link rel="alternate" hreflang="de-NL" href="https://buy.thefemalecompany.com/de-nl">
+    <link rel="alternate" hreflang="de-LU" href="https://buy.thefemalecompany.com/de-lu">
+    <link rel="alternate" hreflang="de-DK" href="https://buy.thefemalecompany.com/de-dk">
+    <link rel="alternate" hreflang="de-FR" href="https://buy.thefemalecompany.com/de-fr">
+
+    <!-- English -->
+    <link rel="alternate" hreflang="en" href="https://buy.thefemalecompany.com/en">
+    <link rel="alternate" hreflang="en-DE" href="https://buy.thefemalecompany.com/en">
+    <link rel="alternate" hreflang="en-BE" href="https://buy.thefemalecompany.com/en-be">
+    <link rel="alternate" hreflang="en-CH" href="https://buy.thefemalecompany.com/en-ch">
+    <link rel="alternate" hreflang="en-NL" href="https://buy.thefemalecompany.com/en-nl">
+    <link rel="alternate" hreflang="en-LU" href="https://buy.thefemalecompany.com/en-lu">
+    <link rel="alternate" hreflang="en-DK" href="https://buy.thefemalecompany.com/en-dk">
+    <link rel="alternate" hreflang="en-FR" href="https://buy.thefemalecompany.com/en-fr">
     
   {% comment %}ly_dir_styles_begin{% endcomment %}
     {%- assign language_code = '_' | append: request.locale.iso_code -%}
@@ -35,7 +71,7 @@ NOTE TO DEVELOPERS: welcome to Focal theme! We hope that you will enjoy editing 
 
     {{ content_for_header }}
     
-      <meta name="google-site-verification" content="Ni670diFqYVeuz4gQWQ2vtiUzYkE8pXXWkyU-FuCOdc" />
+  
   {% include 'pagefly-app-header' %}</head>
   
   <body class="no-focus-outline {{ feature_classes }}" data-instant-allow-query-string>
@@ -179,5 +215,3 @@ NOTE TO DEVELOPERS: welcome to Focal theme! We hope that you will enjoy editing 
 
 </body>
 </html>
-
-{% if content_for_header contains "kimonix_void_script" %}<script async id="kimonix_elements_script" src="https://api.kimonix.com/kimonix_elements.js?shop=thefemalecompany.myshopify.com"></script>{% endif %}

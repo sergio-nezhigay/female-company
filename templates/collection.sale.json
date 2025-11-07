@@ -118,25 +118,6 @@
         "banner_usps_heading_4": ""
       }
     },
-    "rich_text_nxaxJy": {
-      "type": "rich-text",
-      "name": "Rich text",
-      "settings": {
-        "subheading": "",
-        "title": "Spare jetzt bis zu 70% im größten Sale des Jahres",
-        "content": "",
-        "button_text": "",
-        "button_link": "",
-        "background_type": "full_width",
-        "text_width": "medium",
-        "text_position": "center",
-        "text_alignment": "center",
-        "background": "rgba(0,0,0,0)",
-        "text_color": "#cc0807",
-        "button_background": "rgba(0,0,0,0)",
-        "button_text_color": "rgba(0,0,0,0)"
-      }
-    },
     "collection-banner": {
       "type": "collection-banner",
       "disabled": true,
@@ -227,7 +208,6 @@
   },
   "order": [
     "slideshow_mD3fbG",
-    "rich_text_nxaxJy",
     "collection-banner",
     "pagefly_section_yr4AbP",
     "countdown_timer_fTtaWr",

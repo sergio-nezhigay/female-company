@@ -3,13 +3,6 @@
 {%- assign quick_buy_icon_name = 'quick-buy-' | append: settings.cart_icon | replace: '_', '-' -%}
 {%- assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id -%}
 
-{%- for testproduct in settings.a_b_test_products -%}
-  {%- if testproduct.id == product.id -%}
-    {%- assign a_b_test_product_id = true -%}
-    {% break %}
-  {%- endif -%}
-{%- endfor -%}
-
 {%- if product.url contains '?' -%}
   {%- assign product_url_contains_query = true -%}
 {%- else -%}
@@ -76,7 +69,7 @@
       data-cy-product-item-link
       data-click-handler="{{- product.title -}}"
     >
-      {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+      {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
         {{ product.metafields.a_b_test.product_image_1 | image_url: width: product.featured_media.width | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1100,1200', class: 'product-item__primary-image', data-media-id: product.featured_media.id, data-cy-product-item-primary-image: '' }}
       {%- elsif product.featured_media -%}
         {{ product.featured_media | image_url: width: product.featured_media.width | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1100,1200', class: 'product-item__primary-image', data-media-id: product.featured_media.id, data-cy-product-item-primary-image: '' }}
@@ -576,7 +569,7 @@
             <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
           {%- endif -%}
 
-          {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+          {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
             <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
           {%- endif -%}
 
@@ -625,7 +618,7 @@
       <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
     {%- endif -%}
 
-    {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+    {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
       <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
     {%- endif -%}
 

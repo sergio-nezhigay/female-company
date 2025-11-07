@@ -855,10 +855,10 @@
     "name": "AB Testing",
     "settings": [
       {
-        "type": "product_list",
-        "id": "a_b_test_products",
-        "label": "Products to test",
-        "info": "Products for which the product image should be swapped. NEVER FILL OUT ON MAIN/LIVE Theme."
+        "type": "number",
+        "id": "a_b_test_product_id",
+        "label": "Product ID",
+        "info": "Product ID of the product of which the product image should be swapped. NEVER FILL OUT ON MAIN/LIVE Theme."
       }
     ]
   }

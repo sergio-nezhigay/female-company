@@ -17,10 +17,10 @@
         "discount_dNY6aV": {
           "type": "discount",
           "settings": {
-            "discount_code": "REDMONTH",
-            "discount_text": "Zusätzliche 15% Rabatt:",
+            "discount_code": "BUY4_GET1FREE",
+            "discount_text": "Im Checkout einfügen:",
             "button_text_copy": "Copy",
-            "url_matchers": "collections/favourites,collections/influencer,collections/paid-social-landingpage,pages/lp-period-panty,pages/p-period-panty_ab_menu,pages/crm_landingpage_25,collections/crm_landingpage_2-2,collections"
+            "url_matchers": "collections/favourites,collections/influencer,collections/paid-social-landingpage"
           }
         },
         "message_MJT9wp": {
@@ -100,10 +100,10 @@
         "announcement_text_size": "normal",
         "autoplay": true,
         "cycle_speed": 7,
-        "background": "#cc0807",
+        "background": "#f58e9e",
         "text_color": "#ffffff",
         "button_background": "#ffffff",
-        "button_text_color": "#cc0807"
+        "button_text_color": "#f58e9e"
       }
     },
     "announcement_bar_TdwUYf": {
@@ -158,52 +158,6 @@
         "animation_speed": 110,
         "text_color": "#ffffff",
         "background": "#ff00ff"
-      }
-    },
-    "countdown_timer_cFXwBC": {
-      "type": "countdown-timer",
-      "blocks": {
-        "text_Pwri4a": {
-          "type": "text",
-          "settings": {
-            "text": "<p><strong>Nur heute: Preise um weitere 5 % reduziert 🔥</strong></p><p></p>",
-            "offset_top_desktop": 10,
-            "offset_bottom_desktop": 0,
-            "offset_top_mobile": 10,
-            "offset_bottom_mobile": 0
-          }
-        },
-        "countdown_timer_TBNr9q": {
-          "type": "countdown_timer",
-          "settings": {
-            "show_countdown_words": true,
-            "countdown_start_date": "2025-11-05",
-            "countdown_start_time_hour": "18",
-            "countdown_start_time_minute": "00",
-            "countdown_date": "2025-11-06",
-            "countdown_time_hour": "00",
-            "countdown_time_minute": "00",
-            "timer_link": "",
-            "timer_font_size_mobile": 1,
-            "text_font_size_mobile": 0.8,
-            "timer_font_size_desktop": 2,
-            "text_font_size_desktop": 1.5,
-            "offset_top_desktop": 0,
-            "offset_bottom_desktop": 10,
-            "offset_top_mobile": 0,
-            "offset_bottom_mobile": 5
-          }
-        }
-      },
-      "block_order": [
-        "text_Pwri4a",
-        "countdown_timer_TBNr9q"
-      ],
-      "name": "Countdown timer",
-      "settings": {
-        "countdown_text_color": "#1a1a1a",
-        "background_color": "#fff0f0",
-        "text_color": "#1a1a1a"
       }
     },
     "header": {
@@ -375,10 +329,6 @@
         "5b065054-cb65-46d3-b3ce-09fa43be8e43",
         "36d2aa97-ef87-40cf-933a-42969764729a"
       ],
-      "custom_css": [
-        ".lp-period-panty .header__linklist {display: none !important;}",
-        ".lp-period-panty .header__icon-wrapper .icon--header-hamburger {color: white;}"
-      ],
       "settings": {
         "enable_sticky_header": true,
         "logo": "{{ shop.brand.logo }}",
@@ -402,7 +352,6 @@
     "announcement-bar",
     "announcement_bar_TdwUYf",
     "marquee_ehWhQC",
-    "countdown_timer_cFXwBC",
     "header"
   ]
 }

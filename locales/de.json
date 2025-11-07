@@ -644,7 +644,7 @@
   "sections": {
     "discount_code_showcase": {
       "text": "Erhalte jetzt Rabatt mit dem Code:",
-      "text_with_amount": "Erhalte zusätzlich {{ discount_amount }} Rabatt mit dem Code:",
+      "text_with_amount": "Erhalte jetzt {{ discount_amount }} Rabatt mit dem Code:",
       "copy": "Kopieren",
       "copied_html": "<strong>Code kopiert!</strong> Du kannst ihn ihm Checkout einfügen, um Rabatt zu erhalten."
     },

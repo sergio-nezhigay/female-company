@@ -1,0 +1,205 @@
+{
+  "_comment": "Third-Party Script Optimizer Configuration Template",
+  "_usage": "Copy this file and fill in your actual IDs. Do not commit files with real credentials!",
+
+  "analytics": {
+    "gtm": {
+      "enabled": false,
+      "id": "",
+      "_example": "GTM-XXXXXX",
+      "_description": "Google Tag Manager container ID"
+    },
+    "facebook": {
+      "enabled": false,
+      "pixelId": "",
+      "_example": "1234567890123456",
+      "_description": "Facebook Pixel ID (15-16 digits)"
+    },
+    "bing": {
+      "enabled": false,
+      "tagId": "",
+      "_example": "12345678",
+      "_description": "Bing UET Tag ID"
+    },
+    "linkedin": {
+      "enabled": false,
+      "partnerId": "",
+      "_example": "7526625",
+      "_description": "LinkedIn Partner/Conversion ID"
+    },
+    "googleAnalytics": {
+      "enabled": false,
+      "measurementId": "",
+      "_example": "G-XXXXXXXXXX",
+      "_description": "Google Analytics 4 Measurement ID"
+    },
+    "timing": {
+      "interactionDelay": 500,
+      "_description_interactionDelay": "Delay (ms) after user interaction before loading scripts",
+
+      "noInteractionFallback": 4000,
+      "_description_noInteractionFallback": "Fallback (ms) if no user interaction detected",
+
+      "loadFallback": 8000,
+      "_description_loadFallback": "Final fallback (ms) after page load event",
+
+      "gtmTimeout": 1000,
+      "_description_gtmTimeout": "Timeout (ms) for GTM requestIdleCallback",
+
+      "fbTimeout": 1500,
+      "_description_fbTimeout": "Timeout (ms) for Facebook Pixel requestIdleCallback",
+
+      "bingTimeout": 3000,
+      "_description_bingTimeout": "Timeout (ms) for Bing UET requestIdleCallback",
+
+      "linkedInTimeout": 5000,
+      "_description_linkedInTimeout": "Timeout (ms) for LinkedIn Insight requestIdleCallback"
+    }
+  },
+
+  "widgets": {
+    "reviewsIO": {
+      "enabled": false,
+      "selectors": ["[data-reviews-io]", ".reviews-io", "#r-widget", ".ReviewsWidget"],
+      "scripts": [
+        "https://widget.reviews.io/modern-widgets/rating-bar.js",
+        "https://widget.reviews.io/polaris/build.js",
+        "https://widget.reviews.io/rating-snippet/dist.js"
+      ],
+      "loadStrategy": "visibility",
+      "_description": "Reviews.io widget - loads when visible"
+    },
+
+    "yotpo": {
+      "enabled": false,
+      "appKey": "",
+      "_example": "ABC123XYZ456",
+      "selectors": ["[data-yotpo-instance-id]", ".yotpo-widget-instance", ".yotpo-main-widget"],
+      "scriptUrl": "https://cdn-widgetsrepository.yotpo.com/v1/loader/",
+      "loadStrategy": "interaction",
+      "_description": "Yotpo loyalty/reviews widget - loads on hover/click"
+    },
+
+    "recharge": {
+      "enabled": false,
+      "selectors": ["[data-recharge]", ".rc-widget", ".rc-subscription"],
+      "scriptUrl": "https://static.rechargecdn.com/assets/static/js/widget.min.js",
+      "loadStrategy": "interaction",
+      "_description": "Recharge subscription widget - loads on click"
+    },
+
+    "tolstoy": {
+      "enabled": false,
+      "selectors": ["[data-tolstoy]", ".tolstoy-widget"],
+      "scriptUrl": "https://widget.gotolstoy.com/we/widget.js",
+      "loadStrategy": "visibility",
+      "_description": "GoTolstoy video widget - loads when visible"
+    },
+
+    "klaviyo": {
+      "enabled": false,
+      "companyId": "",
+      "_example": "ABC123",
+      "selectors": ["[data-klaviyo-form-id]", ".klaviyo-form-trigger"],
+      "scriptUrl": "https://static.klaviyo.com/onsite/js/klaviyo.js",
+      "loadStrategy": "visibility",
+      "_description": "Klaviyo email forms - loads when visible"
+    },
+
+    "intercom": {
+      "enabled": false,
+      "appId": "",
+      "_example": "abc123xyz",
+      "scriptUrl": "https://widget.intercom.io/widget/",
+      "loadStrategy": "interaction",
+      "_description": "Intercom chat widget"
+    },
+
+    "hotjar": {
+      "enabled": false,
+      "siteId": "",
+      "_example": "1234567",
+      "scriptUrl": "https://static.hotjar.com/c/hotjar-",
+      "loadStrategy": "idle",
+      "_description": "Hotjar heatmaps and recordings"
+    },
+
+    "drift": {
+      "enabled": false,
+      "embeddId": "",
+      "_example": "abc123xyz",
+      "scriptUrl": "https://js.driftt.com/include/",
+      "loadStrategy": "interaction",
+      "_description": "Drift chat widget"
+    },
+
+    "trustpilot": {
+      "enabled": false,
+      "businessUnitId": "",
+      "_example": "5abc123def456",
+      "scriptUrl": "https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js",
+      "loadStrategy": "visibility",
+      "_description": "Trustpilot reviews widget"
+    }
+  },
+
+  "custom": [
+    {
+      "_description": "Example custom widget configuration",
+      "enabled": false,
+      "name": "Custom Chat Widget",
+      "selectors": [".custom-chat", "[data-custom-chat]"],
+      "scriptUrl": "https://example.com/chat-widget.js",
+      "loadStrategy": "interaction",
+      "attrs": {
+        "defer": "true",
+        "data-custom-attr": "value"
+      },
+      "notes": "This is an example. Remove or customize for your needs."
+    }
+  ],
+
+  "advanced": {
+    "cleanupTimeout": 30000,
+    "_description_cleanupTimeout": "Remove unused scripts after N milliseconds (0 = disabled)",
+
+    "visibilityMargin": "200px 0px",
+    "_description_visibilityMargin": "IntersectionObserver rootMargin (how far before visible to trigger)",
+
+    "enableDebugMode": false,
+    "_description_enableDebugMode": "Enable console logging for development (set to false in production)",
+
+    "respectDoNotTrack": false,
+    "_description_respectDoNotTrack": "Respect browser DNT header (disables analytics if true)",
+
+    "consentMode": "none",
+    "_options_consentMode": ["none", "opt-in", "opt-out"],
+    "_description_consentMode": "Consent management strategy"
+  },
+
+  "environment": {
+    "_description": "Platform/environment-specific settings",
+    "platform": "generic",
+    "_options_platform": ["generic", "shopify", "wordpress", "react", "nextjs", "vue"],
+
+    "development": {
+      "enabled": false,
+      "_description": "Development-only settings (disable analytics, enable verbose logging)"
+    }
+  },
+
+  "_notes": [
+    "1. Copy this file to config.json and fill in your actual values",
+    "2. Never commit config.json with real credentials to version control",
+    "3. Add config.json to .gitignore",
+    "4. Use environment variables for sensitive data in production",
+    "5. All timing values are in milliseconds",
+    "6. Load strategies: 'visibility', 'interaction', 'idle'"
+  ],
+
+  "_loadStrategyExplanation": {
+    "visibility": "Loads when element becomes visible in viewport (uses IntersectionObserver)",
+    "interaction": "Loads on first user interaction (scroll, click, touch, keypress)",
+    "idle": "Loads during browser idle time (uses requestIdleCallback)"
+  }
+}

@@ -78,10 +78,12 @@
 
           {%- when 'question' -%}
             <div class="faq__item">
-              <button is="toggle-button" class="collapsible-toggle text--strong" aria-controls="block-{{ section.id }}-{{ block.id }}" aria-expanded="false">
-                {{- block.settings.title -}}
-                <span class="animated-plus"></span>
-              </button>
+              <h3 class="faq__question">
+                <button is="toggle-button" class="collapsible-toggle text--strong" aria-controls="block-{{ section.id }}-{{ block.id }}" aria-expanded="false">
+                  {{- block.settings.title -}}
+                  <span class="animated-plus"></span>
+                </button>
+              </h3>
 
               <collapsible-content id="block-{{ section.id }}-{{ block.id }}" class="collapsible anchor" {{ block.shopify_attributes }}>
                 <div class="collapsible__content text-container">
@@ -108,10 +110,12 @@
                   {%- endif -%}
 
                   <div class="faq__item">
-                    <button is="toggle-button" class="collapsible-toggle text--strong" aria-controls="block-{{ section.id }}-{{ block.id }}-{{ faq.system.handle }}" aria-expanded="false">
-                      {{- faq.question.value -}}
-                      <span class="animated-plus"></span>
-                    </button>
+                    <h3 class="faq__question">
+                      <button is="toggle-button" class="collapsible-toggle text--strong" aria-controls="block-{{ section.id }}-{{ block.id }}-{{ faq.system.handle }}" aria-expanded="false">
+                        {{- faq.question.value -}}
+                        <span class="animated-plus"></span>
+                      </button>
+                    </h3>
 
                     <collapsible-content id="block-{{ section.id }}-{{ block.id }}-{{ faq.system.handle }}" class="collapsible anchor">
                       <div class="collapsible__content text-container">

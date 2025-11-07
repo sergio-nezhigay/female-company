@@ -371,12 +371,6 @@
 
         {% assign intelligems_total = 0 %}
         {%- for line_item in cart.items -%}
-          {%- for testproduct in settings.a_b_test_products -%}
-            {%- if testproduct.id == line_item.product.id -%}
-              {%- assign a_b_test_product_id = true -%}
-              {% break %}
-            {%- endif -%}
-          {%- endfor -%}
           
           {% case line_item.properties._igLineItemDiscount %}
             {% when "0" or nil or blank %}
@@ -394,7 +388,7 @@
                   <span class="line-item__loader-mark" hidden>{% render 'icon' with 'check', width: 20, height: 20 %}</span>
                 </span>
 
-                {%- if a_b_test_product_id and line_item.product.metafields.a_b_test.product_image_1 != blank -%}
+                {%- if line_item.product.id == settings.a_b_test_product_id and line_item.product.metafields.a_b_test.product_image_1 != blank -%}
                   {{- line_item.product.metafields.a_b_test.product_image_1 | image_url: width: line_item.image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 80px, 92px', widths: '80,92,160,184,240,276', class: 'line-item__image' -}}
                 {%- elsif line_item.image != blank -%}
                   {{- line_item.image | image_url: width: line_item.image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 80px, 92px', widths: '80,92,160,184,240,276', class: 'line-item__image' -}}

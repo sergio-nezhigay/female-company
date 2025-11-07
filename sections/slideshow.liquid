@@ -6,6 +6,37 @@
     background-color: {{ section.settings.background }}; /* Allows to set a placeholder color while loading */
   }
 
+  {%- comment -%}Critical CSS для першого слайду - зменшує render delay{%- endcomment -%}
+  #shopify-section-{{ section.id }} .slideshow__slide:first-child {
+    display: block;
+  }
+  
+  #shopify-section-{{ section.id }} .slideshow__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+  
+  {%- comment -%}Оптимізація для зменшення layout shift{%- endcomment -%}
+  #shopify-section-{{ section.id }} .slideshow__image-wrapper {
+    position: relative;
+    overflow: hidden;
+    {%- if section.settings.section_height != 'auto' -%}
+      height: 100%;
+    {%- endif -%}
+  }
+
+  {%- comment -%}Оптимізація для hidden слайдів - зменшує render cost{%- endcomment -%}
+  #shopify-section-{{ section.id }} .slideshow__slide[hidden] {
+    content-visibility: hidden;
+  }
+  
+  {%- comment -%}Prevent layout shift with aspect ratio{%- endcomment -%}
+  #shopify-section-{{ section.id }} .slideshow__image-wrapper img {
+    aspect-ratio: attr(width) / attr(height);
+  }
+
   {%- for block in section.blocks -%}
     {%- liquid 
       assign now = "now" | date: "%s"
@@ -73,10 +104,15 @@
         {%- assign number_of_cols = number_of_cols | plus: 1 -%}
 
         <div class="banner-usps__col">
+          {%- comment -%}Lazy load USP іконки - не критичні для LCP{%- endcomment -%}
           <img
             class="banner-usps__col-image"
-            src="{{- banner_usps_svg | img_url -}}"
-            alt="{{- banner_usps_svg.alt -}}"
+            src="{{- banner_usps_svg | image_url: width: 96 -}}"
+            alt="{{- banner_usps_svg.alt | default: banner_usps_col_heading -}}"
+            loading="lazy"
+            decoding="async"
+            width="48"
+            height="48"
           />
 
           <h3 class="banner-usps__col-heading">
@@ -88,6 +124,7 @@
   {%- endcapture -%}
 
   {%- if banner_usps_cols != blank and show_banner_usps == true -%}
+    {%- comment -%}Banner USPs завантажується після критичного контенту{%- endcomment -%}
     <div
       class="banner-usps show js-banner-usps"
       style="
@@ -101,7 +138,7 @@
       {%- endif -%}
 
       {%- if show_hide_button == true -%}
-        <button class="banner-usps__hide-button js-banner-usps-hide-button" type="button">
+        <button class="banner-usps__hide-button js-banner-usps-hide-button" type="button" aria-label="Close banner">
           {%- render 'icon' with 'close' -%}
         </button>
       {%- endif -%}
@@ -112,7 +149,7 @@
 
       {%- if banner_usps_link -%}
         <a
-          href="{{- banner_usps_link -}}" class="banner-usps__link"></a>
+          href="{{- banner_usps_link -}}" class="banner-usps__link" aria-label="Learn more"></a>
       {%- endif -%}
     </div>
   {%- endif -%}
@@ -165,17 +202,25 @@
           {%- assign image_aspect_ratio = image_aspect_ratio | times: 2.0 -%}
         {%- endif -%}
 
-        {%- if slide_counter > 2 -%}
-          {%- assign loading_attribute_value = 'lazy' -%}
+        {%- comment -%}Визначаємо стратегію завантаження для кожного слайду{%- endcomment -%}
+        {%- if slide_counter > 1 -%}
+          {%- assign should_preload = false -%}
         {%- else -%}
-          {%- assign loading_attribute_value = 'eager' -%}
+          {%- assign should_preload = true -%}
         {%- endif -%}
 
         {%- capture slide_content -%}
-          <div class="slideshow__image-wrapper {% if mobile_image != blank %}hidden-pocket{% endif %}" {% if section.settings.transition_type == 'reveal' %}reveal-visibility{% endif %}>
+          <div class="slideshow__image-wrapper {% if mobile_image != blank %}hidden-pocket{% endif %}"{% if slide_counter != 1 and section.settings.transition_type == 'reveal' %} reveal-visibility{% endif %}{% if slide_counter == 1 %} style="visibility: visible; opacity: 1;"{% endif %}>
             {%- if image != blank -%}
-              {%- capture sizes_attributes -%}{% if split_image != blank %}(min-width: 1000px) 50vw{% else %}100vw{% endif %}{%- endcapture -%}
-              {{- image | image_url: width: 3000 | image_tag: loading: loading_attribute_value, draggable: false, class: 'slideshow__image', sizes: sizes_attributes, widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000' -}}
+              {%- comment -%}Оптимізовані sizes атрибути для мобільних та десктопів{%- endcomment -%}
+              {%- capture sizes_attributes -%}{% if split_image != blank %}(min-width: 1000px) 50vw, (min-width: 750px) 100vw, 100vw{% else %}(min-width: 1600px) 1600px, (min-width: 1000px) 100vw, (min-width: 750px) 100vw, 100vw{% endif %}{%- endcapture -%}
+              {%- if should_preload -%}
+                {%- comment -%}Перший слайд: preload, fetchpriority high, eager loading, оптимізовані widths{%- endcomment -%}
+                {{- image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', preload: true, decoding: 'async', draggable: false, class: 'slideshow__image', sizes: sizes_attributes, widths: '375,550,750,1000,1200,1400,1600' -}}
+              {%- else -%}
+                {%- comment -%}Інші слайди: lazy loading, зменшена кількість варіантів{%- endcomment -%}
+                {{- image | image_url: width: 1600 | image_tag: loading: 'lazy', decoding: 'async', draggable: false, class: 'slideshow__image', sizes: sizes_attributes, widths: '375,550,750,1000,1200,1400,1600' -}}
+              {%- endif -%}
             {%- else -%}
               {% capture image_name %}lifestyle-{% cycle '1', '2' %}{%- endcapture -%}
               {{- image_name | placeholder_svg_tag: 'slideshow__image slideshow__image--placeholder' -}}
@@ -184,14 +229,24 @@
 
           {%- comment -%}If a second image (split image) is uploaded, we use it. Note that we use the same ratio as the first image (to have equal column height){% endcomment %}
           {%- if image != blank and split_image != blank -%}
-            <div class="slideshow__image-wrapper slideshow__image-wrapper--secondary hidden-pocket" {% if section.settings.transition_type == 'reveal' %}reveal-visibility{% endif %}>
-              {{- split_image | image_url: width: 3000 | image_tag: loading: loading_attribute_value, draggable: false, class: 'slideshow__image', sizes: '50vw', widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000' -}}
+            <div class="slideshow__image-wrapper slideshow__image-wrapper--secondary hidden-pocket"{% if slide_counter != 1 and section.settings.transition_type == 'reveal' %} reveal-visibility{% endif %}{% if slide_counter == 1 %} style="visibility: visible; opacity: 1;"{% endif %}>
+              {%- if should_preload -%}
+                {%- comment -%}Split зображення для першого слайду: eager loading, оптимізовані widths{%- endcomment -%}
+                {{- split_image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', decoding: 'async', draggable: false, class: 'slideshow__image', sizes: '(min-width: 1000px) 50vw, 100vw', widths: '375,550,750,1000,1200,1400,1600' -}}
+              {%- else -%}
+                {{- split_image | image_url: width: 1600 | image_tag: loading: 'lazy', decoding: 'async', draggable: false, class: 'slideshow__image', sizes: '(min-width: 1000px) 50vw, 100vw', widths: '375,550,750,1000,1200,1400,1600' -}}
+              {%- endif -%}
             </div>
           {%- endif -%}
 
           {%- if mobile_image != blank -%}
-            <div class="slideshow__image-wrapper hidden-lap-and-up" {% if section.settings.transition_type == 'reveal' %}reveal-visibility{% endif %}>
-              {{- mobile_image | image_url: width: 3000 | image_tag: loading: loading_attribute_value, draggable: false, class: 'slideshow__image', sizes: '100vw', widths: '600,700,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000' -}}
+            <div class="slideshow__image-wrapper hidden-lap-and-up"{% if slide_counter != 1 and section.settings.transition_type == 'reveal' %} reveal-visibility{% endif %}{% if slide_counter == 1 %} style="visibility: visible; opacity: 1;"{% endif %}>
+              {%- if should_preload -%}
+                {%- comment -%}Мобільне зображення для першого слайду: оптимізовані widths для мобайлу{%- endcomment -%}
+                {{- mobile_image | image_url: width: 800 | image_tag: loading: 'eager', fetchpriority: 'high', preload: true, decoding: 'async', draggable: false, class: 'slideshow__image', sizes: '100vw', widths: '375,414,550,640,750,800' -}}
+              {%- else -%}
+                {{- mobile_image | image_url: width: 800 | image_tag: loading: 'lazy', decoding: 'async', draggable: false, class: 'slideshow__image', sizes: '100vw', widths: '375,414,550,640,750,800' -}}
+              {%- endif -%}
             </div>
           {%- endif -%}
 
@@ -209,9 +264,15 @@
             {%- endif -%}
 
             {%- if block.settings.title != blank -%}
-              <h3 class="heading heading--large js-slideshow-heading">
-                <split-lines {% if section.settings.transition_type != 'fade' %}reveal{% endif %}>{{ block.settings.title | escape }}</split-lines>
-              </h3>
+              {%- if slide_counter == 1 -%}
+                <h1 class="heading heading--large js-slideshow-heading">
+                  <split-lines {% if section.settings.transition_type != 'fade' %}reveal{% endif %}>{{ block.settings.title | escape }}</split-lines>
+                </h1>
+              {%- else -%}
+                <h3 class="heading heading--large js-slideshow-heading">
+                  <split-lines {% if section.settings.transition_type != 'fade' %}reveal{% endif %}>{{ block.settings.title | escape }}</split-lines>
+                </h3>
+              {%- endif -%}
             {%- endif -%}
 
             {%- if block.settings.subtitle != blank or block.settings.subtitle_html != blank -%}

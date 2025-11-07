@@ -7,13 +7,6 @@
 {%- assign show_buy_button_next_to_quantity = section.settings.show_buy_button_next_to_quantity | default: false -%}
 {%- assign is_coming_soon = product.metafields.presale.coming_soon -%}
 
-{%- for testproduct in settings.a_b_test_products -%}
-  {%- if testproduct.id == product.id -%}
-    {%- assign a_b_test_product_id = true -%}
-    {% break %}
-  {%- endif -%}
-{%- endfor -%}
-
 {% comment %}
   Filter out variants with metafield 'custom.hide_on_storefront' set to true
 {% endcomment %}
@@ -778,7 +771,7 @@
     {%- when 'back_in_stock_signup' -%}
       <div id="klaviyo-back-in-stock" style="margin-bottom: -16px;"></div>
 
-      <script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+      <script type="text/plain" data-usercentrics="Klaviyo" src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
       <script>
         var klaviyo = klaviyo || [];
 
@@ -906,7 +899,7 @@
                     <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
                   {%- endif -%}
 
-                  {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+                  {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
                     <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
                   {%- endif -%}
 
@@ -1037,7 +1030,7 @@
                 <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
               {%- endif -%}
 
-              {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+              {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
                 <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
               {%- endif -%}
 
@@ -1121,7 +1114,7 @@
               <input type="hidden" name="properties[_panty_bulk_discount_elligible]" value="true">
             {%- endif -%}
 
-            {%- if a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
+            {%- if product.id == settings.a_b_test_product_id and product.metafields.a_b_test.product_image_1 != blank -%}
               <input type="hidden" name="properties[_a_b_test_product_image]" value="true">
             {%- endif -%}
 

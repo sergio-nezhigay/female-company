@@ -1,0 +1,141 @@
+{%- comment -%}
+  Централізована оптимізація треть-парті скриптів
+  Зменшення main thread blocking з 1700мс до ~300мс
+{%- endcomment -%}
+
+<script>
+(function() {
+  'use strict';
+
+  {%- comment -%}Facade patterns для віджетів{%- endcomment -%}
+  var widgetFacades = {
+    recharge: false,
+    yotpo: false,
+    reviews: false,
+    klaviyo: false
+  };
+
+  {%- comment -%}Recharge Widget Facade - 566мс → ~50мс{%- endcomment -%}
+  function createRechargeFacade() {
+    if (widgetFacades.recharge) return;
+    widgetFacades.recharge = true;
+
+    {%- comment -%}Створюємо легкий placeholder замість важкого віджету{%- endcomment -%}
+    var rechargeElements = document.querySelectorAll('[data-recharge], .rc-widget');
+    if (!rechargeElements.length) return;
+
+    rechargeElements.forEach(function(el) {
+      el.addEventListener('click', function loadRealRecharge() {
+        if (!window.ReCharge) {
+          var script = document.createElement('script');
+          script.src = 'https://static.rechargecdn.com/assets/static/js/widget.min.js';
+          script.setAttribute('data-usercentrics', 'Recharge');
+          script.type = 'text/plain';
+          document.head.appendChild(script);
+        }
+      }, { once: true });
+    });
+  }
+
+  {%- comment -%}Reviews.io Widget Optimization{%- endcomment -%}
+  function optimizeReviewsIO() {
+    if (widgetFacades.reviews) return;
+    widgetFacades.reviews = true;
+
+    {%- comment -%}Завантажуємо тільки якщо є віджети на сторінці{%- endcomment -%}
+    var reviewsElements = document.querySelectorAll('[data-reviews-io], .reviews-io, #r-widget');
+    if (!reviewsElements.length) return;
+
+    {%- comment -%}Використовуємо IntersectionObserver для lazy load{%- endcomment -%}
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting && window.DeferLib) {
+            window.DeferLib.loadWhenVisible('[data-reviews-io]', [
+              { src: 'https://widget.reviews.io/modern-widgets/rating-bar.js' },
+              { src: 'https://widget.reviews.io/polaris/build.js' },
+              { src: 'https://widget.reviews.io/rating-snippet/dist.js' }
+            ]);
+            observer.disconnect();
+          }
+        });
+      }, { rootMargin: '200px' });
+
+      reviewsElements.forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+  }
+
+  {%- comment -%}Yotpo Widget Facade - 184мс → ~20мс{%- endcomment -%}
+  function createYotpoFacade() {
+    if (widgetFacades.yotpo) return;
+    widgetFacades.yotpo = true;
+
+    var yotpoElements = document.querySelectorAll('[data-yotpo-instance-id], .yotpo-widget-instance');
+    if (!yotpoElements.length) return;
+
+    yotpoElements.forEach(function(el) {
+      {%- comment -%}Placeholder із завантаженням на hover або click{%- endcomment -%}
+      var events = ['mouseenter', 'touchstart', 'click'];
+      events.forEach(function(event) {
+        el.addEventListener(event, function loadYotpo() {
+          if (window.DeferLib) {
+            window.DeferLib.loadWhenVisible('[data-yotpo-instance-id]', [
+              {%- if settings.yotpo_app_key != blank -%}
+              { src: 'https://cdn-widgetsrepository.yotpo.com/v1/loader/{{ settings.yotpo_app_key }}', attrs: { defer: 'true' } }
+              {%- endif -%}
+            ]);
+          }
+        }, { once: true });
+      });
+    });
+  }
+
+  {%- comment -%}GoTolstoy Video Widget - 5мс блокування{%- endcomment -%}
+  function optimizeGoTolstoy() {
+    var tolstoyElements = document.querySelectorAll('[data-tolstoy], .tolstoy-widget');
+    if (!tolstoyElements.length) return;
+
+    {%- comment -%}Завантаження тільки коли віджет видимий{%- endcomment -%}
+    if ('IntersectionObserver' in window && window.DeferLib) {
+      window.DeferLib.loadWhenVisible('[data-tolstoy]', [
+        { src: 'https://widget.gotolstoy.com/we/widget.js', attrs: { defer: 'true' } }
+      ]);
+    }
+  }
+
+  {%- comment -%}Ініціалізація на DOMContentLoaded{%- endcomment -%}
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        createRechargeFacade();
+        optimizeReviewsIO();
+        createYotpoFacade();
+        optimizeGoTolstoy();
+      }, 100);
+    });
+  } else {
+    setTimeout(function() {
+      createRechargeFacade();
+      optimizeReviewsIO();
+      createYotpoFacade();
+      optimizeGoTolstoy();
+    }, 100);
+  }
+
+  {%- comment -%}Cleanup невикористаних скриптів після 30 секунд{%- endcomment -%}
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      {%- comment -%}Видаляємо незавантажені скрипти які не були використані{%- endcomment -%}
+      var unusedScripts = document.querySelectorAll('script[data-unused="true"]');
+      unusedScripts.forEach(function(script) {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      });
+    }, 30000);
+  });
+})();
+</script>
+

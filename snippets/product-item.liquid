@@ -2,14 +2,6 @@
 {%- assign color_white_label = 'general.label.white' | t | downcase -%}
 {%- assign quick_buy_icon_name = 'quick-buy-' | append: settings.cart_icon | replace: '_', '-' -%}
 
-{%- for testproduct in settings.a_b_test_products -%}
-  {%- if testproduct.id == product.id -%}
-    {%- assign a_b_test_product_id = true -%}
-    {% break %}
-  {%- endif -%}
-{%- endfor -%}
-
-
 {%- if is_variant -%}
   {%- assign current_variant = product -%}
   {%- assign product = product.product -%}
@@ -119,9 +111,7 @@
       style="padding-bottom: {{ 100.0 | divided_by: product.featured_media.preview_image.aspect_ratio }}%; --aspect-ratio: {{ product.featured_media.preview_image.aspect_ratio }}"
       data-cy-product-item-link
     >
-      {%- if a_b_test_product_id -%}
-        {{ product.metafields.a_b_test.product_image_1 | image_url: width: current_variant.featured_media.width | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1100,1200', class: 'product-item__primary-image', data-media-id: current_variant.featured_media.id, data-current-variant-image: "true", data-cy-product-item-primary-image: '' }}
-      {%- elsif is_variant -%}
+      {%- if is_variant and product.id != settings.a_b_test_product_id -%}
         {%- if current_variant.featured_media -%}
           {{ current_variant.featured_media | image_url: width: current_variant.featured_media.width | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1100,1200', class: 'product-item__primary-image', data-media-id: current_variant.featured_media.id, data-current-variant-image: "true", data-cy-product-item-primary-image: '' }}
         {%- elsif product.featured_media -%}
@@ -131,6 +121,9 @@
         {%- if product.featured_media -%}
           {{ product.featured_media | image_url: width: product.featured_media.width | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1100,1200', class: 'product-item__primary-image', data-media-id: product.featured_media.id, data-cy-product-item-primary-image: '' }}
         {%- endif -%}
+      {%- endif -%}
+      {%- if product.id == settings.a_b_test_product_id -%}
+        {{ product.metafields.a_b_test.product_image_1 | image_url: width: current_variant.featured_media.width | image_tag: loading: 'lazy', sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1100,1200', class: 'product-item__primary-image', data-media-id: current_variant.featured_media.id, data-current-variant-image: "true", data-cy-product-item-primary-image: '' }}
       {%- endif -%}
 
       {%- if settings.product_color_display == 'swatch' -%}
